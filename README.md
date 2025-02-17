@@ -1,6 +1,6 @@
 # Pomodoro Timer
 
-This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. There is only a timer, and a background color indicating work or rest states to keep a minimalistic design. **The design is based off of a couple resources listed below** but I plan on adding origin design soon.
+This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. There is only a timer, and a background color indicating work or rest states to keep it minimalistic. **The design is based off of a couple resources listed below** but I plan on adding original designs soon.
 
 ### Settings
 
@@ -17,8 +17,9 @@ const pomodoroSettings = {
 
 ### Development Checklist
 
-- [ ] Notifiation System
+- [ ] Notification System
 - [ ] Spacebar and Backspace Controls
+- [ ] Unfocused Window Blurring
 - [ ] Original Color Scheme
 - [ ] Original Favicon
 
