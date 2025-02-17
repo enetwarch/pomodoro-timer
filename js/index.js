@@ -11,9 +11,9 @@ const pomodoroSettings = {
 
 let pomodoroState;
 
-function retrieveTimer() {
+function retrieveState() {
     const storedState = localStorage.getItem("pomodoroState");
-    if (storedState === null) {
+    if (storedState === null || storedState === "undefined") {
         pomodoroState = {
             "pomodoroState": "work",
             "pomodoroTimer": pomodoroSettings.workMinutes,
@@ -22,17 +22,56 @@ function retrieveTimer() {
     } else {
         pomodoroState = JSON.parse(storedState);
     }
-    initializeState();
-    setInterval(saveTimer, minute);
+    setInterval(saveState, minute);
+    initializeState(undefined);
 }
 
-function initializeState() {
+function saveState() {
+    localStorage.setItem("pomodoroState", JSON.stringify(pomodoroState));
+}
+
+function initializeState(body) {
+    pushNotification(body);
     updateBackground();
     printTimer();
 }
 
-function saveTimer() {
-    localStorage.setItem("pomodoroState", JSON.stringify(pomodoroState));
+const title = "Pomodoro Timer";
+
+async function pushNotification(body) {
+    if (requestNotification()) {
+        new Notification(title, {body});
+    }
+}
+
+async function requestNotification() {
+    if (Notification.permission !== "granted") {
+        const permission = await Notification.requestPermission();
+        return permission === "granted";
+    } else {
+        return true;
+    }
+}
+
+function updateBackground() {
+    switch (pomodoroState.pomodoroState) {
+        case "work":
+            setBackground("--work-color");
+            break;
+        case "rest":
+            setBackground("--rest-color");
+            break;
+        case "longBreak":
+            setBackground("--long-break-color");
+    }
+}
+
+function setBackground(rootVariable) {
+    document.getElementById("background").style.backgroundColor = getColor(rootVariable);
+}
+
+function getColor(rootVariable) {
+    return getComputedStyle(document.documentElement).getPropertyValue(rootVariable);
 }
 
 let running = false;
@@ -87,27 +126,13 @@ function handleTimerEnd() {
         pomodoroState.pomodoroTimer = pomodoroSettings.workMinutes;
         pomodoroState.longBreakInterval += 1;
     }
-    initializeState();
     clearInterval(updateInterval);
+    initializeState(formatNotificationBody());
 }
 
-function updateBackground() {
-    switch (pomodoroState.pomodoroState) {
-        case "work":
-            setBackground("--work-color");
-            break;
-        case "rest":
-            setBackground("--rest-color");
-            break;
-        case "longBreak":
-            setBackground("--long-break-color");
-    }
-}
-
-function setBackground(rootVariable) {
-    document.getElementById("background").style.backgroundColor = getColor(rootVariable);
-}
-
-function getColor(rootVariable) {
-    return getComputedStyle(document.documentElement).getPropertyValue(rootVariable);
+function formatNotificationBody() {
+    const state = pomodoroState.pomodoroState.replace(/([A-Z])/g, ' $1');
+    const finalState = state.charAt(0).toUpperCase() + state.slice(1);
+    const minutes = pomodoroState.pomodoroTimer / minute;
+    return `${finalState} for ${minutes} minutes.`;
 }

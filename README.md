@@ -17,7 +17,7 @@ const pomodoroSettings = {
 
 ### Development Checklist
 
-- [ ] Notification System
+- [x] Notification System
 - [ ] Spacebar and Backspace Controls
 - [ ] Unfocused Window Blurring
 - [ ] Original Color Scheme
