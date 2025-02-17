@@ -22,9 +22,13 @@ function retrieveTimer() {
     } else {
         pomodoroState = JSON.parse(storedState);
     }
+    initializeState();
+    setInterval(saveTimer, minute);
+}
+
+function initializeState() {
     updateBackground();
     printTimer();
-    setInterval(saveTimer, minute);
 }
 
 function saveTimer() {
@@ -59,18 +63,19 @@ function printTimer() {
 
 function formatTimer() {
     const timer = pomodoroState.pomodoroTimer;
-    const minutes = Math.floor(timer / minute);
+    let minutes = Math.floor(timer / minute);
     let seconds = Math.floor(timer % minute / second);
-    if (seconds < 10) {
-        seconds = "0" + seconds;
-    }
-    return `${minutes}:${seconds}`;
+    return `${formatPadding(minutes)}:${formatPadding(seconds)}`;
+}
+
+function formatPadding(time) {
+    return String(time).padStart(2, "0");
 }
 
 function handleTimerEnd() {
     if (pomodoroState.pomodoroState === "work") {
         if (pomodoroState.longBreakInterval === pomodoroSettings.longBreakInterval) {
-            pomodoroState.pomodoroState = "longRest";
+            pomodoroState.pomodoroState = "longBreak";
             pomodoroState.pomodoroTimer = pomodoroSettings.longBreakMinutes;
             pomodoroState.longBreakInterval = 1;
         } else {
@@ -82,8 +87,8 @@ function handleTimerEnd() {
         pomodoroState.pomodoroTimer = pomodoroSettings.workMinutes;
         pomodoroState.longBreakInterval += 1;
     }
-    updateBackground();
-    printTimer();
+    initializeState();
+    clearInterval(updateInterval);
 }
 
 function updateBackground() {
@@ -94,8 +99,8 @@ function updateBackground() {
         case "rest":
             setBackground("--rest-color");
             break;
-        case "longRest":
-            setBackground("--long-rest-color");
+        case "longBreak":
+            setBackground("--long-break-color");
     }
 }
 
