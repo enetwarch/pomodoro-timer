@@ -1,0 +1,40 @@
+@font-face {
+    font-family: "Arial Rounded MT Bold";
+    src: url("../fonts/Arial\ Rounded\ MT\ Bold/arialroundedmtbold.ttf");
+}
+
+:root {
+    --blur-color: #010100;
+    --work-color: #bb4948;
+    --rest-color: #39858b;
+    --long-rest-color: #608cab;
+    --font-color: #ffffff;
+    --font-family: "Arial Rounded MT Bold";
+    --font-size: clamp(5rem, 10vw, 10rem);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+*:hover {
+    cursor: pointer;
+}
+
+#background {
+    align-items: center;
+    background-color: var(--blur-color);
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    transition: background-color, 0.5s;
+}
+
+#timer {
+    color: var(--font-color);
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+}
