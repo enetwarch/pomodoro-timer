@@ -1,3 +1,13 @@
+document.addEventListener("click", () => {
+    toggleTimer();
+});
+
+document.addEventListener("keyup", event => {
+    if (event.code === "Space") {
+        toggleTimer();
+    }
+});
+
 const millisecond = 1;
 const second = millisecond * 1000;
 const minute = second * 60;
@@ -23,7 +33,6 @@ function retrieveState() {
         pomodoroState = JSON.parse(storedState);
     }
     setInterval(saveState, minute);
-    initializeState(undefined);
 }
 
 function saveState() {
@@ -113,8 +122,8 @@ function printTimer() {
 
 function formatTimer() {
     const timer = pomodoroState.pomodoroTimer;
-    let minutes = Math.floor(timer / minute);
-    let seconds = Math.floor(timer % minute / second);
+    const minutes = Math.floor(timer / minute);
+    const seconds = Math.floor(timer % minute / second);
     return `${formatTimerPadding(minutes)}:${formatTimerPadding(seconds)}`;
 }
 

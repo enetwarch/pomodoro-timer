@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.png">
     </head>
-    <body id="background" onload="retrieveState();" onclick="toggleTimer();" onunload="saveState();" tabindex="0">
+    <body id="background" onload="retrieveState(); initializeState(undefined);" onunload="saveState();">
         <p id="state"></p>
         <h1 id="timer"></h1>
         <p id="session"></p>
