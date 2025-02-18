@@ -4,17 +4,20 @@
 }
 
 :root {
-    --blur-color: #010100;
+    --initial-color: #010100;
     --work-color: #bb4948;
-    --rest-color: #39858b;
-    --long-break-color: #608cab;
+    --rest-color: #608cab;
+    --long-break-color: #72a079;
     --font-color: #ffffff;
     --font-family: "Arial Rounded MT Bold";
-    --font-size: clamp(5rem, 10vw, 10rem);
+    --h1-font-size: clamp(5rem, 10vw, 10rem);
+    --p-font-size: clamp(1rem, 2vw, 2rem);
 }
 
 * {
     box-sizing: border-box;
+    color: var(--font-color);
+    font-family: var(--font-family);
     margin: 0;
     padding: 0;
     user-select: none;
@@ -24,17 +27,20 @@
     cursor: pointer;
 }
 
-#background {
+body {
     align-items: center;
-    background-color: var(--blur-color);
+    background-color: var(--initial-color);
     display: flex;
+    flex-direction: column;
     height: 100vh;
     justify-content: center;
-    transition: background-color, 0.5s;
+    transition: background-color 0.5s;
 }
 
-#timer {
-    color: var(--font-color);
-    font-family: var(--font-family);
-    font-size: var(--font-size);
+h1 {
+    font-size: var(--h1-font-size);
+}
+
+p {
+    font-size: var(--p-font-size);
 }

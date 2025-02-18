@@ -33,12 +33,13 @@ function saveState() {
 function initializeState(body) {
     pushNotification(body);
     updateBackground();
+    printState();
     printTimer();
+    printSession();
 }
 
-const title = "Pomodoro Timer";
-
 async function pushNotification(body) {
+    const title = "Pomodoro Timer";
     if (requestNotification()) {
         new Notification(title, {body});
     }
@@ -90,10 +91,20 @@ function toggleTimer() {
 function updateTimer() {
     pomodoroState.pomodoroTimer -= second;
     if (pomodoroState.pomodoroTimer < 0) {
+        toggleTimer();
         handleTimerEnd();
         return;
     }
     printTimer();
+}
+
+function printState() {
+    document.getElementById("state").innerText = formatState();
+}
+
+function formatState() {
+    const state = pomodoroState.pomodoroState.replace(/([A-Z])/g, ' $1');
+    return state.charAt(0).toUpperCase() + state.slice(1);
 }
 
 function printTimer() {
@@ -104,11 +115,23 @@ function formatTimer() {
     const timer = pomodoroState.pomodoroTimer;
     let minutes = Math.floor(timer / minute);
     let seconds = Math.floor(timer % minute / second);
-    return `${formatPadding(minutes)}:${formatPadding(seconds)}`;
+    return `${formatTimerPadding(minutes)}:${formatTimerPadding(seconds)}`;
 }
 
-function formatPadding(time) {
+function formatTimerPadding(time) {
     return String(time).padStart(2, "0");
+}
+
+function printSession() {
+    document.getElementById("session").innerText = `Session ${formatSession()}`;
+}
+
+function formatSession() {
+    if (pomodoroState.pomodoroState !== "longBreak") {
+        return pomodoroState.longBreakInterval
+    } else {
+        return "Reset";
+    }
 }
 
 function handleTimerEnd() {
@@ -116,7 +139,7 @@ function handleTimerEnd() {
         if (pomodoroState.longBreakInterval === pomodoroSettings.longBreakInterval) {
             pomodoroState.pomodoroState = "longBreak";
             pomodoroState.pomodoroTimer = pomodoroSettings.longBreakMinutes;
-            pomodoroState.longBreakInterval = 1;
+            pomodoroState.longBreakInterval = 0;
         } else {
             pomodoroState.pomodoroState = "rest";
             pomodoroState.pomodoroTimer = pomodoroSettings.restMinutes;
@@ -126,13 +149,11 @@ function handleTimerEnd() {
         pomodoroState.pomodoroTimer = pomodoroSettings.workMinutes;
         pomodoroState.longBreakInterval += 1;
     }
-    clearInterval(updateInterval);
     initializeState(formatNotificationBody());
 }
 
 function formatNotificationBody() {
-    const state = pomodoroState.pomodoroState.replace(/([A-Z])/g, ' $1');
-    const finalState = state.charAt(0).toUpperCase() + state.slice(1);
+    const state = formatState();
     const minutes = pomodoroState.pomodoroTimer / minute;
-    return `${finalState} for ${minutes} minutes.`;
+    return `${state} for ${minutes} minutes.`;
 }

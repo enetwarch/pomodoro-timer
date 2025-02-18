@@ -8,8 +8,10 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="icon" type="image/x-icon" href="img/favicon.png">
     </head>
-    <body id="background" onload="retrieveState();" onclick="toggleTimer();" onunload="saveState();">
+    <body id="background" onload="retrieveState();" onclick="toggleTimer();" onunload="saveState();" tabindex="0">
+        <p id="state"></p>
         <h1 id="timer"></h1>
+        <p id="session"></p>
         <script src="js/index.js" async defer></script>
     </body>
 </html>
