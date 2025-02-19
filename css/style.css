@@ -4,11 +4,13 @@
 }
 
 :root {
-    --initial-color: #010100;
+    --idle-color: #000000;
+    --blur-color: #ffffff;
     --work-color: #bb4948;
     --rest-color: #608cab;
     --long-break-color: #72a079;
     --font-color: #ffffff;
+    --blur-font-color: #000000;
     --font-family: "Arial Rounded MT Bold";
     --h1-font-size: clamp(5rem, 10vw, 10rem);
     --p-font-size: clamp(1rem, 2vw, 2rem);
@@ -16,8 +18,6 @@
 
 * {
     box-sizing: border-box;
-    color: var(--font-color);
-    font-family: var(--font-family);
     margin: 0;
     padding: 0;
     user-select: none;
@@ -29,12 +29,18 @@
 
 body {
     align-items: center;
-    background-color: var(--initial-color);
+    background-color: var(--idle-color);
     display: flex;
     flex-direction: column;
     height: 100vh;
     justify-content: center;
     transition: background-color 0.5s;
+}
+
+.text {
+    color: var(--font-color);
+    font-family: var(--font-family);
+    transition: color 0.5s;
 }
 
 h1 {

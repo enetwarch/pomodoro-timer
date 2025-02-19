@@ -1,13 +1,3 @@
-document.addEventListener("click", () => {
-    toggleTimer();
-});
-
-document.addEventListener("keyup", event => {
-    if (event.code === "Space") {
-        toggleTimer();
-    }
-});
-
 const millisecond = 1;
 const second = millisecond * 1000;
 const minute = second * 60;
@@ -64,15 +54,19 @@ async function requestNotification() {
 }
 
 function updateBackground() {
-    switch (pomodoroState.pomodoroState) {
-        case "work":
-            setBackground("--work-color");
-            break;
-        case "rest":
-            setBackground("--rest-color");
-            break;
-        case "longBreak":
-            setBackground("--long-break-color");
+    if (running) {
+        switch (pomodoroState.pomodoroState) {
+            case "work":
+                setBackground("--work-color");
+                break;
+            case "rest":
+                setBackground("--rest-color");
+                break;
+            case "longBreak":
+                setBackground("--long-break-color");
+        }    
+    } else {
+        setBackground("--idle-color");
     }
 }
 
@@ -94,6 +88,9 @@ function toggleTimer() {
     } else {
         running = true;
         updateInterval = setInterval(updateTimer, second);
+    }
+    if (!isBlurred) {
+        updateBackground();
     }
 }
 
@@ -165,4 +162,56 @@ function formatNotificationBody() {
     const state = formatState();
     const minutes = pomodoroState.pomodoroTimer / minute;
     return `${state} for ${minutes} minutes.`;
+}
+
+let heldDownTimeout;
+let isSpaceHeldDown = false;
+let isBlurred = false;
+
+document.addEventListener("click", handleLetGo);
+document.addEventListener("mousedown", handleHeldDown);
+
+document.addEventListener("keyup", event => {
+    if (event.code === "Space") {
+        isSpaceHeldDown = false;
+        handleLetGo();
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.code === "Space" && !isSpaceHeldDown) {
+        isSpaceHeldDown = true;
+        handleHeldDown();
+    }
+});
+
+function handleLetGo() {
+    clearTimeout(heldDownTimeout);
+    if (isBlurred) {
+        isBlurred = false;
+        updateBackground();
+        setFontColor("--font-color");
+    } else {
+        toggleTimer();
+    }
+}
+
+function handleHeldDown() {
+    heldDownTimeout = setTimeout(blurBackground, second);
+}
+
+function blurBackground() {
+    isBlurred = true;
+    if (running) {
+        toggleTimer();
+    }
+    setBackground("--blur-color");
+    setFontColor("--blur-font-color");
+}
+
+function setFontColor(rootVariable) {
+    const textCollection = document.getElementsByClassName("text");
+    for (textElement of textCollection) {
+        textElement.style.color = getColor(rootVariable);
+    }
 }
