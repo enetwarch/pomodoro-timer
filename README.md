@@ -1,38 +1,26 @@
 # Pomodoro Timer
 
-This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the pomodoro details, timer, and background color indicating work or rest states are displayed to keep it minimalistic. **The design is based off of a couple resources listed below**.
+This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the Pomodoro details, timer, and background color indicating work or rest states are displayed to keep it minimalistic. **The design is based off [Pomofocus](https://pomofocus.io/)**.
 
 ### Settings
 
-There is **no dynamic UI** that will help the user change the settings. The website will instead base it off of the personal hard-coded settings I set.
+There is **no dynamic UI** that will help the user change the settings. The website will instead base it off of the personal hard-coded settings I set. The background color will also change when the timer is running depending on the Pomodoro state, this will **default to black** if the timer is idle.
 
-```JavaScript
-const pomodoroSettings = {
-    "workMinutes": 50 * minute,
-    "restMinutes": 10 * minute,
-    "longBreakMinutes": 60 * minute,
-    "longBreakInterval": 4
-};
-```
+* **Work Minutes**: Red background, 50 minutes
+* **Rest Minutes**: Blue background, 10 minutes
+* **Long Break Minutes**: Green background, 60 minutes
+* **Long Break Intervals**: 4
 
-The following color schemes are applied to the background depending on the current pomodoro state.
+### Controls
 
-```CSS
-:root {
-    --work-color: #bb4948; /* Red */
-    --rest-color: #608cab; /* Blue */
-    --long-break-color: #72a079; /* Green */
-}
-```
+* **Tap, Space or Left Click**: Toggles the timer to idle or running.
+* **Hold Space or Left Click**: Will have varying changes depending on how long you hold.
+    * **1 second**: Changes the background color to white and pauses the timer.
+    * **3 seconds**: Resets the current session's timer.
+    * **5 seconds**: Hard resets the timer and reverts it back to work state, session 1.
 
 ### Development Checklist
 
 - [x] Notification System
 - [x] Pomodoro Details
-- [ ] Spacebar and Backspace Controls
-- [ ] Unfocused Window Blurring
-
-### Resources
-
-* [Pomofocus](https://pomofocus.io/)
-* [Favicon](https://www.flaticon.com/free-icons/pomodoro)
+- [x] Additional Controls
