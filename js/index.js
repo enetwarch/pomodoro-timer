@@ -62,15 +62,19 @@ function updateBackground() {
         switch (pomodoroState.pomodoroState) {
             case "work":
                 setBackground("--work-color");
+                setFavicon("img/work-favicon.png");
                 break;
             case "rest":
                 setBackground("--rest-color");
+                setFavicon("img/rest-favicon.png");
                 break;
             case "longBreak":
                 setBackground("--long-break-color");
+                setFavicon("img/long-break-favicon.png");
         }    
     } else {
         setBackground("--idle-color");
+        setFavicon("img/idle-favicon.png");
     }
 }
 
@@ -80,6 +84,10 @@ function setBackground(rootVariable) {
 
 function getColor(rootVariable) {
     return getComputedStyle(document.documentElement).getPropertyValue(rootVariable);
+}
+
+function setFavicon(faviconLink) {
+    document.getElementById("favicon").setAttribute("href", faviconLink);
 }
 
 let isRunning = false;
@@ -223,6 +231,7 @@ function blurBackground() {
     }
     setBackground("--blur-color");
     setFontColor("--blur-font-color");
+    setFavicon("img/idle-favicon.png");
 }
 
 function resetSession() {

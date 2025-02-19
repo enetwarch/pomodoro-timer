@@ -4,7 +4,7 @@ This is a personal Pomodoro Timer that I built as a small project for honing my 
 
 ### Settings
 
-There is **no dynamic UI** that will help the user change the settings. The website will instead base it off of the personal hard-coded settings I set. The background color will also change when the timer is running depending on the Pomodoro state, this will **default to black** if the timer is idle.
+There is **no dynamic UI** that will help the user change the settings. The website will instead base it off of the personal hard-coded settings I set. The background color and favicon will change when the timer is running depending on the Pomodoro state, this will **default to black** if the timer is idle.
 
 * **Work Minutes**: Red background, 50 minutes
 * **Rest Minutes**: Blue background, 10 minutes
@@ -24,3 +24,4 @@ There is **no dynamic UI** that will help the user change the settings. The webs
 - [x] Notification System
 - [x] Pomodoro Details
 - [x] Additional Controls
+- [x] Dynamic Favicons
