@@ -19,12 +19,9 @@ let pomodoroState;
 
 function retrieveState() {
     const storedState = localStorage.getItem("pomodoroState");
-    if (storedState === null || storedState === "undefined") {
-        pomodoroState = defaultPomodoroState;
-    } else {
-        pomodoroState = JSON.parse(storedState);
-    }
-    setInterval(saveState, minute);
+    const noStoredState = storedState === null || storedState === "undefined";
+    pomodoroState = noStoredState ? defaultPomodoroState : JSON.parse(storedState);
+    setInterval(saveState, 1 * minute);
 }
 
 function saveState() {
@@ -32,10 +29,12 @@ function saveState() {
 }
 
 function initializeState(body) {
-    if (!isBlurred) {
-        pushNotification(body);
-        updateBackground();
-    }
+    pushNotification(body);
+    updateColor();
+    printText();
+}
+
+function printText() {
     printState();
     printTimer();
     printSession();
@@ -43,39 +42,20 @@ function initializeState(body) {
 
 async function pushNotification(body) {
     const title = "Pomodoro Timer";
-    if (requestNotification()) {
-        new Notification(title, {body});
-    }
+    if (Notification.permission !== "granted") await Notification.requestPermission();
+    if (Notification.permission === "granted") new Notification(title, {body});
 }
 
-async function requestNotification() {
-    if (Notification.permission !== "granted") {
-        const permission = await Notification.requestPermission();
-        return permission === "granted";
-    } else {
-        return true;
-    }
-}
-
-function updateBackground() {
-    if (isRunning) {
-        switch (pomodoroState.pomodoroState) {
-            case "work":
-                setBackground("--work-color");
-                setFavicon("img/work-favicon.png");
-                break;
-            case "rest":
-                setBackground("--rest-color");
-                setFavicon("img/rest-favicon.png");
-                break;
-            case "longBreak":
-                setBackground("--long-break-color");
-                setFavicon("img/long-break-favicon.png");
-        }    
-    } else {
-        setBackground("--idle-color");
-        setFavicon("img/idle-favicon.png");
-    }
+function updateColor() {
+    const stateColors = {
+        "work": {"background": "--work-color", "favicon": "img/work-favicon.png"},
+        "rest": {"background": "--rest-color", "favicon": "img/rest-favicon.png"},
+        "longBreak": {"background": "--long-break-color", "favicon": "img/long-break-favicon.png"},
+        "idle": {"background": "--idle-color", "favicon": "img/idle-favicon.png"}
+    };
+    const stateColor = isRunning ? stateColors[pomodoroState.pomodoroState] : stateColors["idle"];
+    setBackground(stateColor.background);
+    setFavicon(stateColor.favicon);
 }
 
 function setBackground(rootVariable) {
@@ -91,29 +71,26 @@ function setFavicon(faviconLink) {
 }
 
 let isRunning = false;
-let updateInterval;
+let updateTimerInterval;
 
 function toggleTimer() {
-    if (isRunning) {
-        isRunning = false;
-        clearInterval(updateInterval);
-    } else {
-        isRunning = true;
-        updateInterval = setInterval(updateTimer, second);
-    }
-    if (!isBlurred) {
-        updateBackground();
-    }
+    isRunning ? stopTimer() : startTimer();
+    updateColor();
+}
+
+function stopTimer() {
+    isRunning = false;
+    clearInterval(updateTimerInterval);
+}
+
+function startTimer() {
+    isRunning = true;
+    updateTimerInterval = setInterval(updateTimer, second);
 }
 
 function updateTimer() {
     pomodoroState.pomodoroTimer -= second;
-    if (pomodoroState.pomodoroTimer < 0) {
-        toggleTimer();
-        handleTimerEnd();
-        return;
-    }
-    printTimer();
+    pomodoroState.pomodoroTimer < 0 ? handleTimerEnd() : printTimer();
 }
 
 function printState() {
@@ -145,29 +122,26 @@ function printSession() {
 }
 
 function formatSession() {
-    if (pomodoroState.pomodoroState !== "longBreak") {
-        return pomodoroState.longBreakInterval
-    } else {
-        return "Reset";
-    }
+    const interval = pomodoroState.longBreakInterval;
+    return interval ? interval : "Reset";
 }
 
 function handleTimerEnd() {
+    toggleTimer();
     if (pomodoroState.pomodoroState === "work") {
-        if (pomodoroState.longBreakInterval === pomodoroSettings.longBreakInterval) {
-            pomodoroState.pomodoroState = "longBreak";
-            pomodoroState.pomodoroTimer = pomodoroSettings.longBreakMinutes;
-            pomodoroState.longBreakInterval = 0;
-        } else {
-            pomodoroState.pomodoroState = "rest";
-            pomodoroState.pomodoroTimer = pomodoroSettings.restMinutes;
-        }
+        pomodoroState.longBreakInterval === pomodoroSettings.longBreakInterval ?
+        modifyPomodoroState("longBreak", pomodoroSettings.longBreakMinutes, 0) :
+        modifyPomodoroState("rest", pomodoroSettings.restMinutes, pomodoroState.longBreakInterval);
     } else {
-        pomodoroState.pomodoroState = "work";
-        pomodoroState.pomodoroTimer = pomodoroSettings.workMinutes;
-        pomodoroState.longBreakInterval += 1;
+        modifyPomodoroState("work", pomodoroSettings.workMinutes, pomodoroState.longBreakInterval + 1);
     }
     initializeState(formatNotificationBody());
+}
+
+function modifyPomodoroState(state, timer, interval) {
+    pomodoroState.pomodoroState = state;
+    pomodoroState.pomodoroTimer = timer;
+    pomodoroState.longBreakInterval = interval;
 }
 
 function formatNotificationBody() {
@@ -176,89 +150,67 @@ function formatNotificationBody() {
     return `${state} for ${minutes} minutes.`;
 }
 
-let isSpaceHeldDown = false;
-let isBlurred = false;
-let heldDownTimeout;
-
 document.addEventListener("click", handleLetGo);
 document.addEventListener("mousedown", handleHeldDown);
+document.addEventListener("keyup", event => {if (event.code === "Space") handleLetGo()});
+document.addEventListener("keydown", event => {if (event.code === "Space") handleHeldDown()});
 
-document.addEventListener("keyup", event => {
-    if (event.code === "Space") {
-        isSpaceHeldDown = false;
-        handleLetGo();
-    }
-});
-
-document.addEventListener("keydown", event => {
-    if (event.code === "Space" && !isSpaceHeldDown) {
-        isSpaceHeldDown = true;
-        handleHeldDown();
-    }
-});
+let isHeldDown = false;
+let isBlurred = false;
+let heldDownTimeouts = [];
 
 function handleLetGo() {
-    clearTimeout(heldDownTimeout);
-    if (isBlurred) {
-        isBlurred = false;
-        isReset = false;
-        isHardReset = false;
-        updateBackground();
-        setFontColor("--font-color");
-    } else {
-        toggleTimer();
-    }
+    isHeldDown = false;
+    clearHeldDownTimeouts();
+    isBlurred ? removeBlur() : toggleTimer();
 }
 
-let isReset = false;
-let isHardReset = false;
+function removeBlur() {
+    isBlurred = false;
+    updateColor();
+    setFontColor("--font-color");
+}
+
+function setFontColor(rootVariable) {
+    const textCollection = Array.from(document.getElementsByClassName("text"));
+    textCollection.forEach(textElement => textElement.style.color = getColor(rootVariable));
+}
+
+function clearHeldDownTimeouts() {
+    heldDownTimeouts.forEach(heldDownTimeout => clearTimeout(heldDownTimeout));
+    heldDownTimeouts = [];
+}
 
 function handleHeldDown() {
-    if (!isBlurred) {
-        heldDownTimeout = setTimeout(blurBackground, second);
-    } else if (!isReset) {
-        heldDownTimeout = setTimeout(resetSession, 2 * second);
-    } else if (!isHardReset) {
-        heldDownTimeout = setTimeout(hardResetSession, 2 * second);
-    }
+    isHeldDown = true;
+    createHeldDownTimeout(blurBackground, 1 * second);
+    createHeldDownTimeout(resetSession, 3 * second);
+    createHeldDownTimeout(hardResetSession, 5 * second);
+}
+
+function createHeldDownTimeout(foo, delay) {
+    heldDownTimeouts.push(setTimeout(foo, delay));
 }
 
 function blurBackground() {
     isBlurred = true;
-    handleHeldDown();
-    if (isRunning) {
-        toggleTimer();
-    }
+    if (isRunning) toggleTimer();
+    initializeBlurredState();
+}
+
+function initializeBlurredState() {
     setBackground("--blur-color");
     setFontColor("--blur-font-color");
     setFavicon("img/idle-favicon.png");
 }
 
 function resetSession() {
-    isReset = true;
-    handleHeldDown();
-    switch (pomodoroState.pomodoroState) {
-        case "work":  
-            pomodoroState.pomodoroTimer = pomodoroSettings.workMinutes;
-            break;
-        case "rest":
-            pomodoroState.pomodoroTimer = pomodoroSettings.restMinutes;
-            break;
-        case "longBreak":
-            pomodoroState.pomodoroTimer = pomodoroSettings.longBreakMinutes;
-    }
-    initializeState();
+    const state = pomodoroState.pomodoroState.concat("Minutes");
+    pomodoroState.pomodoroTimer = pomodoroSettings[state];
+    printText();
 }
 
 function hardResetSession() {
-    isHardReset = true;
     pomodoroState = defaultPomodoroState;
-    initializeState();
-}
-
-function setFontColor(rootVariable) {
-    const textCollection = document.getElementsByClassName("text");
-    for (textElement of textCollection) {
-        textElement.style.color = getColor(rootVariable);
-    }
+    printText();
 }
