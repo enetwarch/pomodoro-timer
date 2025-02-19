@@ -1,4 +1,4 @@
-# Pomodoro Timer
+# [Pomodoro Timer](https://enetwarch.github.io/pomodoro-timer/)
 
 This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the Pomodoro details, timer, and background color indicating work or rest states are displayed to keep it minimalistic. **The design is based off [Pomofocus](https://pomofocus.io/)**.
 
