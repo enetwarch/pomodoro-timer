@@ -19,6 +19,9 @@ There is **no dynamic UI** that will help the user change the settings. The webs
     * **3 seconds**: Resets the current session's timer.
     * **5 seconds**: Hard resets the timer and reverts it back to work state, session 1.
 
+> [!WARNING]
+> Due to issues related to context menus, right clicking on pc would trigger the mousedown listener which could reset the timer if not noticed on time. The same issue persists on mobile as holding any area within the website will display a transparent blue overlay, showing the context menu and disabling the feature to reset the timer altogether.
+
 ### Development Checklist
 
 - [x] Notification System
