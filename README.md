@@ -26,3 +26,4 @@ There is **no dynamic UI** that will help the user change the settings. The webs
 - [x] Additional Controls
 - [x] Dynamic Favicons
 - [x] Fix Input Bugs
+- [x] Fix Time Drift

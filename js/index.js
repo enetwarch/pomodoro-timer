@@ -28,7 +28,7 @@ function retrieveState() {
 
 function setIdleNotificationInterval() {
     idleNotificationInterval = setInterval(function() {
-        pushNotification("Timer is paused.")
+        pushNotification("Timer is paused.");
     }, 2 * minute);
 }
 
@@ -79,6 +79,7 @@ function setFavicon(faviconLink) {
 }
 
 let isRunning = false;
+let endingTime;
 let updateTimerInterval;
 
 function toggleTimer() {
@@ -94,12 +95,13 @@ function stopTimer() {
 
 function startTimer() {
     isRunning = true;
-    updateTimerInterval = setInterval(updateTimer, 1 * second);
+    endingTime = Date.now() + pomodoroState.pomodoroTimer;
+    updateTimerInterval = setInterval(updateTimer, 100 * millisecond);
     clearInterval(idleNotificationInterval);
 }
 
 function updateTimer() {
-    pomodoroState.pomodoroTimer -= second;
+    pomodoroState.pomodoroTimer = endingTime - Date.now();
     pomodoroState.pomodoroTimer < 0 ? handleTimerEnd() : printTimer();
 }
 
