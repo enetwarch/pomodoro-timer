@@ -160,19 +160,32 @@ function formatNotificationBody() {
     return `${state} for ${minutes} minutes.`;
 }
 
-document.addEventListener("click", handleLetGo);
-document.addEventListener("mousedown", handleHeldDown);
-document.addEventListener("keyup", event => {if (event.code === "Space") handleLetGo()});
-document.addEventListener("keydown", event => {if (event.code === "Space") handleHeldDown()});
-
 let isHeldDown = false;
 let isBlurred = false;
 let heldDownTimeouts = [];
+
+document.addEventListener("touchend", handleTouchEnd);
+document.addEventListener("touchstart", handleHeldDown);
+document.addEventListener("click", handleLetGo);
+document.addEventListener("mousedown", handleHeldDown);
+document.addEventListener("keyup", event => {if (event.code === "Space") handleLetGo();});
+document.addEventListener("keydown", event => {if (event.code === "Space") handleHeldDown();});
+document.addEventListener("contextmenu", event => event.preventDefault());
+
+function handleTouchEnd(event) {
+    event.preventDefault();
+    handleLetGo();
+}
 
 function handleLetGo() {
     isHeldDown = false;
     clearHeldDownTimeouts();
     isBlurred ? removeBlur() : toggleTimer();
+}
+
+function clearHeldDownTimeouts() {
+    heldDownTimeouts.forEach(heldDownTimeout => clearTimeout(heldDownTimeout));
+    heldDownTimeouts = [];
 }
 
 function removeBlur() {
@@ -184,11 +197,6 @@ function removeBlur() {
 function setFontColor(rootVariable) {
     const textCollection = Array.from(document.getElementsByClassName("text"));
     textCollection.forEach(textElement => textElement.style.color = getColor(rootVariable));
-}
-
-function clearHeldDownTimeouts() {
-    heldDownTimeouts.forEach(heldDownTimeout => clearTimeout(heldDownTimeout));
-    heldDownTimeouts = [];
 }
 
 function handleHeldDown() {
