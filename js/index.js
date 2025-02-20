@@ -80,7 +80,7 @@ function setFavicon(faviconLink) {
 
 let isRunning = false;
 let endingTime;
-let updateTimerInterval;
+let updateTimerAnimationFrame;
 
 function toggleTimer() {
     isRunning ? stopTimer() : startTimer();
@@ -89,20 +89,21 @@ function toggleTimer() {
 
 function stopTimer() {
     isRunning = false;
-    clearInterval(updateTimerInterval);
     setIdleNotificationInterval();
+    cancelAnimationFrame(updateTimerAnimationFrame);
 }
 
 function startTimer() {
     isRunning = true;
     endingTime = Date.now() + pomodoroState.pomodoroTimer;
-    updateTimerInterval = setInterval(updateTimer, 100 * millisecond);
     clearInterval(idleNotificationInterval);
+    updateTimer();
 }
 
 function updateTimer() {
     pomodoroState.pomodoroTimer = endingTime - Date.now();
     pomodoroState.pomodoroTimer < 0 ? handleTimerEnd() : printTimer();
+    if (isRunning) updateTimerAnimationFrame = requestAnimationFrame(updateTimer);
 }
 
 function printState() {
