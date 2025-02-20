@@ -1,6 +1,6 @@
 const millisecond = 1;
-const second = millisecond * 1000;
-const minute = second * 60;
+const second = 1000 * millisecond;
+const minute = 60 * second;
 
 const pomodoroSettings = {
     "workMinutes": 50 * minute,
@@ -16,12 +16,20 @@ const defaultPomodoroState = {
 }
 
 let pomodoroState;
+let idleNotificationInterval;
 
 function retrieveState() {
     const storedState = localStorage.getItem("pomodoroState");
     const noStoredState = storedState === null || storedState === "undefined";
     pomodoroState = noStoredState ? defaultPomodoroState : JSON.parse(storedState);
+    setIdleNotificationInterval();
     setInterval(saveState, 1 * minute);
+}
+
+function setIdleNotificationInterval() {
+    idleNotificationInterval = setInterval(function() {
+        pushNotification("Timer is paused.")
+    }, 2 * minute);
 }
 
 function saveState() {
@@ -81,11 +89,13 @@ function toggleTimer() {
 function stopTimer() {
     isRunning = false;
     clearInterval(updateTimerInterval);
+    setIdleNotificationInterval();
 }
 
 function startTimer() {
     isRunning = true;
-    updateTimerInterval = setInterval(updateTimer, second);
+    updateTimerInterval = setInterval(updateTimer, 1 * second);
+    clearInterval(idleNotificationInterval);
 }
 
 function updateTimer() {
