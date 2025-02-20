@@ -166,7 +166,7 @@ let heldDownTimeouts = [];
 
 document.addEventListener("touchend", handleTouchEnd);
 document.addEventListener("touchstart", handleHeldDown);
-document.addEventListener("click", handleLetGo);
+document.addEventListener("mouseup", handleLetGo);
 document.addEventListener("mousedown", handleHeldDown);
 document.addEventListener("keyup", event => {if (event.code === "Space") handleLetGo();});
 document.addEventListener("keydown", event => {if (event.code === "Space") handleHeldDown();});
