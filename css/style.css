@@ -4,13 +4,13 @@
 }
 
 :root {
-    --idle-color: #000000;
-    --blur-color: #ffffff;
+    --idle-color: #0d0d0d;
+    --blur-color: #f2f2f2;
     --work-color: #bb4948;
     --rest-color: #608cab;
     --long-break-color: #72a079;
-    --font-color: #ffffff;
-    --blur-font-color: #000000;
+    --font-color: #f2f2f2;
+    --blur-font-color: #0d0d0d;
     --font-family: "Arial Rounded MT Bold";
     --h1-font-size: clamp(5rem, 10vw, 10rem);
     --p-font-size: clamp(1rem, 2vw, 2rem);
