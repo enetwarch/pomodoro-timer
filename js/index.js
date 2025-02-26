@@ -3,9 +3,9 @@ const second = 1000 * millisecond;
 const minute = 60 * second;
 
 const pomodoroSettings = {
-    "workMinutes": 0.1 * minute,
-    "restMinutes": 0.1 * minute,
-    "longBreakMinutes": 0.1 * minute,
+    "workMinutes": 50 * minute,
+    "restMinutes": 10 * minute,
+    "longBreakMinutes": 60 * minute,
     "longBreakInterval": 4
 };
 
