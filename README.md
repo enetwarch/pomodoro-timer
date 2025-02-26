@@ -18,12 +18,3 @@ There is **no dynamic UI** that will help the user change the settings. The webs
     * **1 second**: Changes the background color to white and pauses the timer.
     * **3 seconds**: Resets the current session's timer.
     * **5 seconds**: Hard resets the timer and reverts it back to work state, session 1.
-
-### Development Checklist
-
-- [x] Notification System
-- [x] Pomodoro Details
-- [x] Additional Controls
-- [x] Dynamic Favicons
-- [x] Fix Input Bugs
-- [x] Fix Time Drift
