@@ -1,19 +1,14 @@
 @font-face {
     font-family: "Arial Rounded MT Bold";
-    src: url("../font/arialroundedmtbold.ttf");
+    src: url("/font/arialroundedmtbold.ttf");
 }
 
 :root {
-    --idle-color: #1a1a1a;
-    --blur-color: #e6e6e6;
-    --work-color: #bb4948;
-    --rest-color: #608cab;
-    --long-break-color: #72a079;
-    --font-color: #e6e6e6;
-    --blur-font-color: #1a1a1a;
-    --font-family: "Arial Rounded MT Bold";
-    --h1-font-size: clamp(5rem, 10vw, 10rem);
-    --p-font-size: clamp(1rem, 2vw, 2rem);
+    --black:#1a1a1a;
+    --blue: #608cab;
+    --green: #72a079;
+    --red: #bb4948;
+    --white: #e6e6e6;
 }
 
 * {
@@ -28,9 +23,9 @@
     cursor: pointer;
 }
 
-body {
+.background {
     align-items: center;
-    background-color: var(--idle-color);
+    background-color: var(--black);
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -39,15 +34,15 @@ body {
 }
 
 .text {
-    color: var(--font-color);
-    font-family: var(--font-family);
+    color: var(--white);
+    font-family: "Arial Rounded MT Bold";
     transition: color 0.5s;
 }
 
 h1 {
-    font-size: var(--h1-font-size);
+    font-size: clamp(5rem, 10vw, 10rem);
 }
 
 p {
-    font-size: var(--p-font-size);
+    font-size: clamp(1rem, 2vw, 2rem);
 }
