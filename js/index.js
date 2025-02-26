@@ -3,9 +3,9 @@ const second = 1000 * millisecond;
 const minute = 60 * second;
 
 const pomodoroSettings = {
-    "workMinutes": 50 * minute,
-    "restMinutes": 10 * minute,
-    "longBreakMinutes": 60 * minute,
+    "workMinutes": 0.1 * minute,
+    "restMinutes": 0.1 * minute,
+    "longBreakMinutes": 0.1 * minute,
     "longBreakInterval": 4
 };
 
@@ -56,10 +56,10 @@ async function pushNotification(body) {
 
 function updateColor() {
     const stateColors = {
-        "work": {"background": "--red", "favicon": "img/red-favicon.ico"},
-        "rest": {"background": "--blue", "favicon": "img/blue-favicon.ico"},
-        "longBreak": {"background": "--green", "favicon": "img/green-favicon.ico"},
-        "idle": {"background": "--black", "favicon": "img/gray-favicon.ico"}
+        "work": {"background": "--red", "favicon": "/img/red.ico"},
+        "rest": {"background": "--blue", "favicon": "/img/blue.ico"},
+        "longBreak": {"background": "--green", "favicon": "/img/green.ico"},
+        "idle": {"background": "--black", "favicon": "/img/black.ico"}
     };
     const stateColor = isRunning ? stateColors[pomodoroState.pomodoroState] : stateColors["idle"];
     setBackground(stateColor.background);
@@ -221,7 +221,7 @@ function blurBackground() {
 function initializeBlurredState() {
     setBackground("--white");
     setFontColor("--black");
-    setFavicon("img/gray-favicon.ico");
+    setFavicon("/img/white.ico");
 }
 
 function resetSession() {
