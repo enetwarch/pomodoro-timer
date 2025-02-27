@@ -14,8 +14,8 @@ const settings = {
 const defaultPomodoro = {
     "state": "work",
     "timer": settings.minutes.work,
-    "interval": 1
-}
+    "session": 1
+};
 
 let pomodoro;
 
@@ -24,7 +24,7 @@ window.addEventListener("beforeunload", savePomodoro);
 
 function retrievePomodoro() {
     const storedPomodoro = localStorage.getItem("pomodoro");
-    const noStoredPomodoro = storedPomodoro === null || storedPomodoro === "undefined"
+    const noStoredPomodoro = storedPomodoro === null || storedPomodoro === "undefined";
     pomodoro = noStoredPomodoro ? defaultPomodoro : JSON.parse(storedPomodoro);
     setInterval(savePomodoro, 1 * minute);
     printText();
@@ -98,7 +98,7 @@ function printTimer() {
 }
 
 function printSession() {
-    const session = pomodoro.interval ? pomodoro.interval : "Reset";
+    const session = pomodoro.session ? pomodoro.session : "Reset";
     document.getElementById("session").innerText = `Session ${session}`;
 }
 
@@ -153,20 +153,20 @@ function setFavicon(faviconLink) {
 function handleTimerEnd() {
     toggleTimer();
     if (pomodoro.state === "work") {
-        pomodoro.interval === settings.interval ?
+        pomodoro.session === settings.interval ?
         modifyPomodoro("longBreak", settings.minutes.longBreak, 0) :
-        modifyPomodoro("rest", settings.minutes.rest, pomodoro.interval);
+        modifyPomodoro("rest", settings.minutes.rest, pomodoro.session);
     } else {
-        modifyPomodoro("work", settings.minutes.work, pomodoro.interval + 1);
+        modifyPomodoro("work", settings.minutes.work, pomodoro.session + 1);
     }
     pushNotification();
     printText();
 }
 
-function modifyPomodoro(state, timer, interval) {
+function modifyPomodoro(state, timer, session) {
     pomodoro.state = state;
     pomodoro.timer = timer;
-    pomodoro.interval = interval;
+    pomodoro.session = session;
 }
 
 async function pushNotification() {
