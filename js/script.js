@@ -4,9 +4,9 @@ const minute = 60 * second;
 
 const settings = {
     "minutes": {
-        "work": 0.1 * minute,
-        "rest": 0.1 * minute,
-        "longBreak": 0.1 * minute
+        "work": 50 * minute,
+        "rest": 10 * minute,
+        "longBreak": 60 * minute
     },
     "interval": 4
 };
