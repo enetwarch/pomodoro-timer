@@ -15,6 +15,5 @@ There is **no dynamic UI** that will help the user change the settings. The webs
 
 * **Tap, Space or Left Click**: Toggles the timer to idle or running.
 * **Hold Space or Left Click**: Will have varying changes depending on how long you hold.
-    * **1 second**: Changes the background color to white and pauses the timer.
     * **3 seconds**: Resets the current session's timer.
     * **5 seconds**: Hard resets the timer and reverts it back to work state, session 1.
