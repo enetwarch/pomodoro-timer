@@ -18,7 +18,6 @@ const defaultPomodoro = {
 }
 
 let pomodoro;
-let idleNotificationInterval;
 
 window.addEventListener("load", retrievePomodoro);
 window.addEventListener("beforeunload", savePomodoro);
@@ -31,19 +30,12 @@ function retrievePomodoro() {
         pomodoro = JSON.parse(storedState);
     }
     setInterval(savePomodoro, 1 * minute);
-    setIdleNotificationInterval();
     initializeState();
 }
 
 function savePomodoro() {
     const currentState = JSON.stringify(pomodoro);
     localStorage.setItem("pomodoro", currentState);
-}
-
-function setIdleNotificationInterval() {
-    idleNotificationInterval = setInterval(() => {
-        pushNotification("Timer is paused.");
-    }, 2 * minute);
 }
 
 document.addEventListener("touchstart", handleHeldDown);
@@ -184,7 +176,6 @@ function toggleTimer() {
 function stopTimer() {
     isRunning = false;
     updateColor("idle");
-    setIdleNotificationInterval();
     clearInterval(updateTimerInterval);
 }
 
@@ -192,7 +183,6 @@ function startTimer() {
     isRunning = true;
     endingTime = Date.now() + pomodoro.timer;
     updateColor(pomodoro.state);
-    clearInterval(idleNotificationInterval);
     updateTimerInterval = setInterval(updateTimer, 100 * millisecond);
 }
 
