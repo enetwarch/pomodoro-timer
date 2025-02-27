@@ -2,6 +2,96 @@ const millisecond = 1;
 const second = 1000 * millisecond;
 const minute = 60 * second;
 
+let pomodoroState;
+let idleNotificationInterval;
+
+window.addEventListener("load", () => {retrieveState(), initializeState();});
+window.addEventListener("beforeunload", saveState);
+
+function retrieveState() {
+    const storedState = localStorage.getItem("pomodoroState");
+    const noStoredState = storedState === null || storedState === "undefined";
+    pomodoroState = noStoredState ? defaultPomodoroState : JSON.parse(storedState);
+    setInterval(saveState, 1 * minute);
+    setIdleNotificationInterval();
+}
+
+function saveState() {
+    localStorage.setItem("pomodoroState", JSON.stringify(pomodoroState));
+}
+
+function setIdleNotificationInterval() {
+    idleNotificationInterval = setInterval(() => {pushNotification("Timer is paused.");}, 2 * minute);
+}
+
+document.addEventListener("touchstart", handleHeldDown);
+document.addEventListener("touchend", event => {event.preventDefault(), handleLetGo();});
+document.addEventListener("mousedown", event => {if (event.button === 0) handleHeldDown();});
+document.addEventListener("mouseup", event => {if (event.button === 0) handleLetGo();});
+document.addEventListener("keydown", event => {if (event.code === "Space") handleHeldDown();});
+document.addEventListener("keyup", event => {if (event.code === "Space") handleLetGo();});
+document.addEventListener("contextmenu", event => {event.preventDefault();});
+
+let isHeldDown = false;
+let isBlurred = false;
+let heldDownTimeouts = [];
+
+function handleLetGo() {
+    isHeldDown = false;
+    clearHeldDownTimeouts();
+    isBlurred ? removeBlur() : toggleTimer();
+}
+
+function clearHeldDownTimeouts() {
+    heldDownTimeouts.forEach(heldDownTimeout => clearTimeout(heldDownTimeout));
+    heldDownTimeouts = [];
+}
+
+function removeBlur() {
+    isBlurred = false;
+    updateColor();
+    setFontColor("--font-color");
+}
+
+function setFontColor(rootVariable) {
+    const textCollection = Array.from(document.getElementsByClassName("text"));
+    textCollection.forEach(textElement => textElement.style.color = getColor(rootVariable));
+}
+
+function handleHeldDown() {
+    isHeldDown = true;
+    createHeldDownTimeout(blurBackground, 1 * second);
+    createHeldDownTimeout(resetSession, 3 * second);
+    createHeldDownTimeout(hardResetSession, 5 * second);
+}
+
+function createHeldDownTimeout(foo, delay) {
+    heldDownTimeouts.push(setTimeout(foo, delay));
+}
+
+function blurBackground() {
+    isBlurred = true;
+    if (isRunning) toggleTimer();
+    initializeBlurredState();
+}
+
+function initializeBlurredState() {
+    setBackground("--white");
+    setFontColor("--black");
+    setFavicon("img/white.ico");
+}
+
+function resetSession() {
+    const state = pomodoroState.pomodoroState.concat("Minutes");
+    pomodoroState.pomodoroTimer = pomodoroSettings[state];
+    printText();
+}
+
+function hardResetSession() {
+    pomodoroState = defaultPomodoroState;
+    printText();
+}
+
 const pomodoroSettings = {
     "workMinutes": 50 * minute,
     "restMinutes": 10 * minute,
@@ -13,27 +103,6 @@ const defaultPomodoroState = {
     "pomodoroState": "work",
     "pomodoroTimer": pomodoroSettings.workMinutes,
     "longBreakInterval": 1
-}
-
-let pomodoroState;
-let idleNotificationInterval;
-
-function retrieveState() {
-    const storedState = localStorage.getItem("pomodoroState");
-    const noStoredState = storedState === null || storedState === "undefined";
-    pomodoroState = noStoredState ? defaultPomodoroState : JSON.parse(storedState);
-    setIdleNotificationInterval();
-    setInterval(saveState, 1 * minute);
-}
-
-function setIdleNotificationInterval() {
-    idleNotificationInterval = setInterval(function() {
-        pushNotification("Timer is paused.");
-    }, 2 * minute);
-}
-
-function saveState() {
-    localStorage.setItem("pomodoroState", JSON.stringify(pomodoroState));
 }
 
 function initializeState(body) {
@@ -160,77 +229,4 @@ function formatNotificationBody() {
     const state = formatState();
     const minutes = pomodoroState.pomodoroTimer / minute;
     return `${state} for ${minutes} minutes.`;
-}
-
-let isHeldDown = false;
-let isBlurred = false;
-let heldDownTimeouts = [];
-
-document.addEventListener("touchend", handleTouchEnd);
-document.addEventListener("touchstart", handleHeldDown);
-document.addEventListener("mouseup", handleLetGo);
-document.addEventListener("mousedown", handleHeldDown);
-document.addEventListener("keyup", event => {if (event.code === "Space") handleLetGo();});
-document.addEventListener("keydown", event => {if (event.code === "Space") handleHeldDown();});
-document.addEventListener("contextmenu", event => event.preventDefault());
-
-function handleTouchEnd(event) {
-    event.preventDefault();
-    handleLetGo();
-}
-
-function handleLetGo() {
-    isHeldDown = false;
-    clearHeldDownTimeouts();
-    isBlurred ? removeBlur() : toggleTimer();
-}
-
-function clearHeldDownTimeouts() {
-    heldDownTimeouts.forEach(heldDownTimeout => clearTimeout(heldDownTimeout));
-    heldDownTimeouts = [];
-}
-
-function removeBlur() {
-    isBlurred = false;
-    updateColor();
-    setFontColor("--font-color");
-}
-
-function setFontColor(rootVariable) {
-    const textCollection = Array.from(document.getElementsByClassName("text"));
-    textCollection.forEach(textElement => textElement.style.color = getColor(rootVariable));
-}
-
-function handleHeldDown() {
-    isHeldDown = true;
-    createHeldDownTimeout(blurBackground, 1 * second);
-    createHeldDownTimeout(resetSession, 3 * second);
-    createHeldDownTimeout(hardResetSession, 5 * second);
-}
-
-function createHeldDownTimeout(foo, delay) {
-    heldDownTimeouts.push(setTimeout(foo, delay));
-}
-
-function blurBackground() {
-    isBlurred = true;
-    if (isRunning) toggleTimer();
-    initializeBlurredState();
-}
-
-function initializeBlurredState() {
-    setBackground("--white");
-    setFontColor("--black");
-    setFavicon("img/white.ico");
-}
-
-function resetSession() {
-    const state = pomodoroState.pomodoroState.concat("Minutes");
-    pomodoroState.pomodoroTimer = pomodoroSettings[state];
-    printText();
-}
-
-function hardResetSession() {
-    pomodoroState = defaultPomodoroState;
-    printText();
 }
