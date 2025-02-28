@@ -43,11 +43,18 @@ document.addEventListener("keyup", (event) => {if (event.code === "Space") handl
 document.addEventListener("contextmenu", (event) => {event.preventDefault();});
 
 let isHeldDown = false;
+let isHeldDownForOneSecond = false;
 let heldDownTimeouts = [];
 
 function handleHeldDown() {
     isHeldDown = true;
-    if (isRunning) setHeldDownTimeout(toggleTimer, 1 * second);
+    if (isRunning) {
+        setHeldDownTimeout(toggleTimer, 1 * second);
+    }
+    setHeldDownTimeout(() => {
+        isHeldDownForOneSecond = true;
+        fadeTextInOut();
+    }, 1 * second);
     setHeldDownTimeout(resetSession, 3 * second);
     setHeldDownTimeout(hardResetSession, 5 * second);
 }
@@ -55,7 +62,11 @@ function handleHeldDown() {
 function handleLetGo() {
     isHeldDown = false;
     clearHeldDownTimeouts();
-    toggleTimer();
+    if (isHeldDownForOneSecond) {
+        isHeldDownForOneSecond = false;
+    } else {
+        toggleTimer();
+    }
 }
 
 function setHeldDownTimeout(foo, delay) {
@@ -67,14 +78,26 @@ function clearHeldDownTimeouts() {
     heldDownTimeouts = [];
 }
 
+function fadeTextInOut() {
+    const text = document.querySelectorAll(".text");
+    text.forEach((textElement) => {
+        textElement.classList.add("fade-out");
+        setTimeout(() => {
+            textElement.classList.remove("fade-out");
+            textElement.classList.add("fade-in");
+            printText();
+        }, 500 * millisecond);    
+    });
+}
+
 function resetSession() {
     pomodoro.timer = settings.minutes[pomodoro.state];
-    printText();
+    fadeTextInOut();
 }
 
 function hardResetSession() {
     pomodoro = defaultPomodoro;
-    printText();
+    fadeTextInOut();
 }
 
 function printText() {

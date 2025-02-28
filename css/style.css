@@ -36,7 +36,15 @@
 .text {
     color: var(--white);
     font-family: "Arial Rounded MT Bold";
-    transition: color 0.5s;
+    transition: opacity 0.5s;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
 }
 
 h1 {
