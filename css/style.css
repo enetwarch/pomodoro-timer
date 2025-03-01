@@ -23,7 +23,11 @@
     cursor: pointer;
 }
 
-.background {
+html {
+    font-size: clamp(8px, 2vw, 16px);
+}
+
+body {
     align-items: center;
     background-color: var(--black);
     display: flex;
@@ -48,9 +52,9 @@
 }
 
 h1 {
-    font-size: clamp(5rem, 10vw, 10rem);
+    font-size: 10rem;
 }
 
 p {
-    font-size: clamp(1rem, 2vw, 2rem);
+    font-size: 2rem;
 }

@@ -213,7 +213,7 @@ function updateColor(state) {
 function setBackground(rootVariable) {
     const style = getComputedStyle(document.documentElement);
     const color = style.getPropertyValue(rootVariable);
-    document.getElementById("background").style.backgroundColor = color;
+    document.body.style.backgroundColor = color;
 }
 
 function setFavicon(faviconLink) {
