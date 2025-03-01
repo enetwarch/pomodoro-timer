@@ -39,35 +39,28 @@ body {
     transition: background-color 0.5s;
 }
 
-.pomodoro {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.button {
-    background-color: var(--white);
-    border: none;
-    border-radius: 100px;
-    mix-blend-mode: screen;
-    padding: 0.5rem 2rem;
-    font-size: 2rem;
-}
-
-.fade-in {
-    opacity: 1;
-}
-
-.fade-out {
-    opacity: 0;
-}
-
 h1 {
     font-size: 10rem;
 }
 
 p {
     font-size: 2rem;
+}
+
+.pomodoro {
+    align-items: center;
+    display:flex;
+    flex-direction: column;
+    min-height: 20rem;
+    max-height: 100vh;
+    justify-content: center;
+}
+
+.button {
+    background-color: var(--white);
+    border: none;
+    border-radius: 100px;
+    font-size: 1.5rem;
+    mix-blend-mode: screen;
+    padding: 0.5rem 2rem;
 }
