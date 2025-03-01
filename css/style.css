@@ -14,6 +14,7 @@
 * {
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
+    font-family: "Arial Rounded MT Bold";
     margin: 0;
     padding: 0;
     user-select: none;
@@ -30,17 +31,29 @@ html {
 body {
     align-items: center;
     background-color: var(--black);
+    color: var(--white);
     display: flex;
     flex-direction: column;
-    height: 100vh;
     justify-content: center;
+    min-height: 100vh;
     transition: background-color 0.5s;
 }
 
-.text {
-    color: var(--white);
-    font-family: "Arial Rounded MT Bold";
-    transition: opacity 0.5s;
+.pomodoro {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.button {
+    background-color: var(--white);
+    border: none;
+    border-radius: 100px;
+    mix-blend-mode: screen;
+    padding: 0.5rem 2rem;
+    font-size: 2rem;
 }
 
 .fade-in {
