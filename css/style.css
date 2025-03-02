@@ -8,6 +8,7 @@
     --blue: #608cab;
     --green: #72a079;
     --red: #bb4948;
+    --transparent: #e6e6e61a;
     --white: #e6e6e6;
 }
 
@@ -41,26 +42,39 @@ body {
 
 h1 {
     font-size: 10rem;
+    line-height: 1;
 }
 
-p {
+h3 {
     font-size: 2rem;
+    line-height: 1;
 }
 
-.pomodoro {
-    align-items: center;
-    display:flex;
-    flex-direction: column;
-    min-height: 20rem;
-    max-height: 100vh;
-    justify-content: center;
-}
-
-.button {
+button {
     background-color: var(--white);
     border: none;
     border-radius: 100px;
     font-size: 1.5rem;
     mix-blend-mode: screen;
     padding: 0.5rem 2rem;
+}
+
+.full-viewport {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    width: 100vw;
+}
+
+.card {
+    align-items: center;
+    background-color: var(--transparent);
+    border-radius: 6rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
 }
