@@ -2,35 +2,66 @@ const millisecond = 1;
 const second = 1000 * millisecond;
 const minute = 60 * second;
 
-const settings = {
-    "minutes": {
-        "work": 50 * minute,
-        "rest": 10 * minute,
-        "longBreak": 60 * minute
-    },
-    "interval": 4
-};
+window.addEventListener("beforeunload", savePomodoro);
+window.addEventListener("load", () => {
+    addListeners();
+    retrievePomodoro();
+    setInterval(savePomodoro, 1 * minute);
+    displayOutput();
+});
 
+const listenerConfig = [
+    [() => toggleTimer(), [["click", "play"], ["keyup", "Space"]]],
+    [() => hardReset(), [["touchstart", "reset"], ["mousedown", "reset"]]],
+    [() => softReset(), [["touchend", "reset"], ["mouseup", "reset"]]],
+];
+
+function addListeners() {
+    listenerConfig.forEach(config => {
+        const func = config[0];
+        const listeners = config[1];
+        listeners.forEach(listener => {
+            addListener(listener, func);
+        });
+    }); 
+}
+
+function addListener(listener, func) {
+    const eventType = listener[0];
+    if (eventType !== "keyup") {
+        const id = listener[1];
+        const element = document.getElementById(id);
+        element.addEventListener(eventType, func);
+    } else {
+        const eventCode = listener[1];
+        document.addEventListener(eventType, event => {
+            if (event.code === eventCode) func();
+        });
+    }
+}
+
+let pomodoro;
 const defaultPomodoro = {
+    "settings": {
+        "minutes": {
+            "work": 50 * minute,
+            "rest": 10 * minute,
+            "longBreak": 60 * minute    
+        },
+        "interval": 4
+    },
     "state": "work",
-    "timer": settings.minutes.work,
+    "timer": 50 * minute,
     "session": 1
 };
 
-let pomodoro;
-
-window.addEventListener("load", retrievePomodoro);
-window.addEventListener("beforeunload", savePomodoro);
-
 function retrievePomodoro() {
     const storedPomodoro = localStorage.getItem("pomodoro");
-    if (storedPomodoro === null || storedPomodoro === "undefined") {
+    if (storedPomodoro === null || storedPomodoro === undefined) {
         pomodoro = structuredClone(defaultPomodoro);
     } else {
         pomodoro = JSON.parse(storedPomodoro);
     }
-    setInterval(savePomodoro, 1 * minute);
-    printText();
 }
 
 function savePomodoro() {
@@ -40,22 +71,6 @@ function savePomodoro() {
 let isRunning = false;
 let updateTimerInterval;
 let endingTime;
-
-document.body.addEventListener("touchend", toggleTimerHandler);
-document.body.addEventListener("mouseup", toggleTimerHandler);
-document.body.addEventListener("keyup", toggleTimerHandler);
-document.body.addEventListener("contextmenu", event => event.preventDefault());
-
-function toggleTimerHandler(event) {
-    if (event.type === "touchend") event.preventDefault();
-    if (event.type === "mouseup" && event.button !== 0) return;
-    if (event.type === "keyup" && event.code !== "Space") return;
-    if (resetButtonPressed) {
-        resetButtonPressed = false;
-        return;
-    }
-    toggleTimer();
-}
 
 function toggleTimer() {
     isRunning ? stopTimer() : startTimer();
@@ -70,75 +85,68 @@ function stopTimer() {
 function startTimer() {
     isRunning = true;
     endingTime = Date.now() + pomodoro.timer;
-    updateTimerInterval = setInterval(updateTimer, 100);
+    updateTimerInterval = setInterval(updateTimer, 1 * millisecond);
     setBackground(pomodoro.state);
 }
 
 function updateTimer() {
     pomodoro.timer = endingTime - Date.now();
-    pomodoro.timer < 0 ? handleTimerEnd() : printTimer();
+    pomodoro.timer < 0 ? handleTimerEnd() : displayTimer();
 }
 
-const reset = document.getElementById("reset");
+const stateElement = document.getElementById("state");
+const timerElement = document.getElementById("timer");
+const sessionElement = document.getElementById("session");
 let resetButtonPressed = false;
 let hardResetTimeout;
-
-reset.addEventListener("touchstart", hardReset);
-reset.addEventListener("touchend", softReset);
-reset.addEventListener("mousedown", hardReset)
-reset.addEventListener("mouseup", softReset);
 
 function hardReset() {
     if (resetButtonPressed) return;
     resetButtonPressed = true;
     hardResetTimeout = setTimeout(() => {
         if (confirm("Do you want to HARD reset the timer?")) {
-            pomodoro = structuredClone(defaultPomodoro);
+            pomodoro.state = "work";
+            pomodoro.timer = pomodoro.settings.minutes.work;
+            pomodoro.session = 1;
         }
         resetButtonPressed = false;
         stopTimer();
-        printText();        
+        displayOutput();
     }, 1 * second);
 }
 
 function softReset() {
     clearTimeout(hardResetTimeout);
     if (confirm("Do you want to soft reset the timer?")) {
-        pomodoro.timer = settings.minutes[pomodoro.state];
+        pomodoro.timer = pomodoro.settings.minutes[pomodoro.state];
     }
     stopTimer();
-    printTimer();
+    displayTimer();
 }
 
-function printText() {
-    printStateAndSession();
-    printTimer(); 
-}
-
-function printStateAndSession() {
-    const state = formatState();
+function displayOutput() {
+    const state = getState();
     const session = `Session ${pomodoro.session}`;
-    const stateAndSession = document.getElementById("stateAndSession");
-    stateAndSession.innerText = `${state} ${session}`;
+    stateElement.innerText = state;
+    sessionElement.innerText = session;
+    displayTimer();
 }
 
-function printTimer() {
-    const minutes = formatTime(pomodoro.timer / minute);
-    const seconds = formatTime(pomodoro.timer % minute / second);
-    const timer = `${minutes}:${seconds}`;
-    document.getElementById("timer").innerText = timer;
+function displayTimer() {
+    let minutes = pomodoro.timer / minute;
+    let seconds = pomodoro.timer % minute / second;
+    minutes = String(Math.floor(minutes)).padStart(2, "0");
+    seconds = String(Math.floor(seconds)).padStart(2, "0");
+    const time = `${minutes}:${seconds}`;
+    timerElement.innerText = time;
 }
 
-function formatState() {
+function getState() {
     const state = pomodoro.state.replace(/([A-Z])/g, ' $1');
     return state.charAt(0).toUpperCase() + state.slice(1);
 }
 
-function formatTime(time) {
-    return String(Math.floor(time)).padStart(2, "0");
-}
-
-const stateColors = {
+const stateBackgroundColors = {
     "work": "red",
     "rest": "blue",
     "longBreak": "green",
@@ -146,25 +154,25 @@ const stateColors = {
 };
 
 function setBackground(state) {
-    const stateColor = stateColors[state];
+    const stateBackgroundColor = stateBackgroundColors[state];
     const style = getComputedStyle(document.documentElement);
-    const color = style.getPropertyValue(`--${stateColor}`);
+    const color = style.getPropertyValue(`--${stateBackgroundColor}`);
     document.body.style.backgroundColor = color;
 }
 
 function handleTimerEnd() {
     toggleTimer();
     if (pomodoro.state === "work") {
-        const notAtInterval = pomodoro.session !== settings.interval;
+        const notAtInterval = pomodoro.session !== pomodoro.settings.interval;
         pomodoro.state = notAtInterval ? "rest" : "longBreak";
     } else {
         const atRestState = pomodoro.state === "rest";
         pomodoro.session = atRestState ? pomodoro.session + 1 : 1;
         pomodoro.state = "work";
     }
-    pomodoro.timer = settings.minutes[pomodoro.state];
+    pomodoro.timer = pomodoro.settings.minutes[pomodoro.state];
     pushNotification();
-    printText();
+    displayOutput();
 }
 
 async function pushNotification() {
@@ -173,7 +181,7 @@ async function pushNotification() {
     }
     if (Notification.permission === "granted") {
         const title = "Pomodoro Timer";
-        const state = formatState();
+        const state = getState();
         const minutes = pomodoro.timer / minute;
         const body = `${state} for ${minutes} minutes.`;
         new Notification(title, {body}); 
