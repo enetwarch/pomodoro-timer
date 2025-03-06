@@ -47,7 +47,7 @@ const defaultPomodoro = {
         "workMinutes": 50 * minute,
         "restMinutes": 10 * minute,
         "longBreakMinutes": 60 * minute,
-        "longBreakInterval": 4
+        "longBreakInterval": 4,
     },
     "state": "work",
     "timer": 50 * minute,
@@ -96,6 +96,7 @@ function softReset() {
 
 let isRunning = false;
 let updateTimerInterval;
+let idleNotificationInterval;
 let endingTime;
 
 function toggleTimer() {
@@ -105,6 +106,10 @@ function toggleTimer() {
 function stopTimer() {
     isRunning = false;
     clearInterval(updateTimerInterval);
+    idleNotificationInterval = setInterval(() => {
+        const body = "Timer is idle.";
+        pushNotification(body);
+    }, 5 * minute);
     setBackground("idle");
 }
 
@@ -112,6 +117,7 @@ function startTimer() {
     isRunning = true;
     endingTime = Date.now() + pomodoro.timer;
     updateTimerInterval = setInterval(updateTimer, 1 * millisecond);
+    clearInterval(idleNotificationInterval);
     setBackground(pomodoro.state);
 }
 
@@ -171,21 +177,25 @@ function handleTimerEnd() {
         pomodoro.state = "work";
     }
     pomodoro.timer = pomodoro.settings[`${pomodoro.state}Minutes`];
-    pushNotification();
+    const body = getStateForMinutes();
+    pushNotification(body);
     displayOutput();
 }
 
-async function pushNotification() {
+async function pushNotification(body) {
     if (Notification.permission !== "granted") {
         await Notification.requestPermission();
     }
     if (Notification.permission === "granted") {
         const title = "Pomodoro Timer";
-        const state = sentenceCase(pomodoro.state);
-        const minutes = pomodoro.timer / minute;
-        const body = `${state} for ${minutes} minutes.`;
         new Notification(title, {body}); 
     }
+}
+
+function getStateForMinutes() {
+    const state = sentenceCase(pomodoro.state);
+    const minutes = pomodoro.timer / minute;
+    return `${state} for ${minutes} minutes.`;
 }
 
 function changeSettings() {
@@ -201,8 +211,9 @@ function changeSetting(setting, message) {
     const isMinutes = setting.includes("Minutes");
     if (isMinutes) defaultValue /= minute; 
     while (true) {
-        const input = parseFloat(prompt(message, defaultValue));
+        let input = prompt(message, defaultValue);
         if (input === null) break;
+        input = parseFloat(input);
         if (isNaN(input)) {
             alert("Please input a number.");
             continue;
