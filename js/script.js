@@ -94,6 +94,7 @@ function softReset() {
     displayTimer();
 }
 
+const playElement = document.getElementById("play");
 let isRunning = false;
 let updateTimerInterval;
 let idleNotificationInterval;
@@ -110,6 +111,7 @@ function stopTimer() {
         const body = "Timer is idle.";
         pushNotification(body);
     }, 5 * minute);
+    changePlayIcon();
     setBackground("idle");
 }
 
@@ -118,7 +120,16 @@ function startTimer() {
     endingTime = Date.now() + pomodoro.timer;
     updateTimerInterval = setInterval(updateTimer, 1 * millisecond);
     clearInterval(idleNotificationInterval);
+    changePlayIcon();
     setBackground(pomodoro.state);
+}
+
+function changePlayIcon() {
+    if (isRunning) {
+        playElement.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+    } else {
+        playElement.innerHTML = `<i class="fa-solid fa-play"></i>`;
+    }
 }
 
 function updateTimer() {
