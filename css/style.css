@@ -4,8 +4,6 @@
     --black-1: #1a1a1a;
     --black-2: #333333;
     --black-3: #4d4d4d;
-    --blue: #608cab;
-    --green: #72a079;
     --red: #bb4948;
     --white: #e6e6e6;
 }
@@ -46,29 +44,29 @@ body {
 }
 
 .watch .output {
-    grid-column: 1 / 4;
-    background-color: var(--red);
-    display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
+    background-color: var(--red);
     border-radius: 1rem;
-    font-size: 1.5rem;
     color: var(--black-2);
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    grid-column: 1 / 4;
+    justify-content: center;
 }
 
 .watch .output #timer {
-    font-size: 4rem;   
+    font-size: 4rem;
 }
 
 .watch .input {
+    align-items: center;
     background-color: var(--black-3);
+    border-radius: 100px;
     color: var(--white);
     display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 2rem;
-    border-radius: 100px;
+    justify-content: center;
 }
 
 .watch .input:hover {

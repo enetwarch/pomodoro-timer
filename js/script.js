@@ -44,13 +44,13 @@ function addListener(listener, func) {
 let pomodoro;
 const defaultPomodoro = {
     "settings": {
-        "workMinutes": 50 * minute,
-        "restMinutes": 10 * minute,
-        "longBreakMinutes": 60 * minute,
+        "workMinutes": 25 * minute,
+        "restMinutes": 5 * minute,
+        "longBreakMinutes": 15 * minute,
         "longBreakInterval": 4,
     },
     "state": "work",
-    "timer": 50 * minute,
+    "timer": 25 * minute,
     "session": 1
 };
 
@@ -112,7 +112,6 @@ function stopTimer() {
         pushNotification(body);
     }, 5 * minute);
     changePlayIcon();
-    setBackground("idle");
 }
 
 function startTimer() {
@@ -121,7 +120,6 @@ function startTimer() {
     updateTimerInterval = setInterval(updateTimer, 1 * millisecond);
     clearInterval(idleNotificationInterval);
     changePlayIcon();
-    setBackground(pomodoro.state);
 }
 
 function changePlayIcon() {
@@ -161,20 +159,6 @@ function displayTimer() {
 function sentenceCase(string) {
     string = string.replace(/([A-Z])/g, ' $1');
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-const stateBackgroundColors = {
-    "work": "red",
-    "rest": "blue",
-    "longBreak": "green",
-    "idle": "black"
-};
-
-function setBackground(state) {
-    const stateBackgroundColor = stateBackgroundColors[state];
-    const style = getComputedStyle(document.documentElement);
-    const color = style.getPropertyValue(`--${stateBackgroundColor}`);
-    document.body.style.backgroundColor = color;
 }
 
 function handleTimerEnd() {
@@ -224,7 +208,7 @@ function changeSetting(setting, message) {
     while (true) {
         let input = prompt(message, defaultValue);
         if (input === null) break;
-        input = parseFloat(input);
+        input = parseInt(input);
         if (isNaN(input)) {
             alert("Please input a number.");
             continue;
