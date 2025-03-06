@@ -1,37 +1,32 @@
-@font-face {
-    font-family: "Arial Rounded MT Bold";
-    src: url("../font/arialroundedmtbold.ttf");
-}
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 :root {
-    --black: #1a1a1a;
+    --black-1: #1a1a1a;
+    --black-2: #333333;
+    --black-3: #4d4d4d;
     --blue: #608cab;
     --green: #72a079;
     --red: #bb4948;
-    --transparent: #e6e6e61a;
     --white: #e6e6e6;
 }
 
 * {
     -webkit-tap-highlight-color: transparent;
     box-sizing: border-box;
-    font-family: "Arial Rounded MT Bold";
+    font-family: "Varela Round", sans-serif;
+    font-weight: bold;
     margin: 0;
     padding: 0;
     user-select: none;
 }
 
-*:hover {
-    cursor: pointer;
-}
-
 html {
-    font-size: clamp(8px, 2vw, 16px);
+    font-size: clamp(12px, 2vw, 16px);
 }
 
 body {
     align-items: center;
-    background-color: var(--black);
+    background-color: var(--black-1);
     color: var(--white);
     display: flex;
     flex-direction: column;
@@ -40,41 +35,42 @@ body {
     transition: background-color 0.5s;
 }
 
-h1 {
-    font-size: 10rem;
-    line-height: 1;
-}
-
-h3 {
-    font-size: 2rem;
-    line-height: 1;
-}
-
-button {
-    background-color: var(--white);
-    border: none;
-    border-radius: 100px;
-    font-size: 1.5rem;
-    mix-blend-mode: screen;
-    padding: 0.5rem 2rem;
-}
-
-.full-viewport {
-    align-items: center;
-    display: flex;
+.watch {
+    background-color: var(--black-2);
+    border-radius: 2rem;
+    display: grid;
     flex-direction: column;
-    height: 100vh;
-    justify-content: center;
-    width: 100vw;
-}
-
-.card {
-    align-items: center;
-    background-color: var(--transparent);
-    border-radius: 6rem;
-    display: flex;
     gap: 1rem;
-    flex-direction: column;
+    grid-template: 12rem 4rem / repeat(3, 4rem);
+    padding: 2rem;
+}
+
+.watch .output {
+    grid-column: 1 / 4;
+    background-color: var(--red);
+    display: flex;
     justify-content: center;
-    padding: 3rem;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    color: var(--black-2);
+}
+
+.watch .output #timer {
+    font-size: 4rem;   
+}
+
+.watch .input {
+    background-color: var(--black-3);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border-radius: 100px;
+}
+
+.watch .input:hover {
+    cursor: pointer;
 }

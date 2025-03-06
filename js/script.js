@@ -1,4 +1,5 @@
-const second = 1000;
+const millisecond = 1;
+const second = 1000 * millisecond;
 const minute = 60 * second;
 
 const settings = {
@@ -63,14 +64,14 @@ function toggleTimer() {
 function stopTimer() {
     isRunning = false;
     clearInterval(updateTimerInterval);
-    updateColor("idle");
+    setBackground("idle");
 }
 
 function startTimer() {
     isRunning = true;
     endingTime = Date.now() + pomodoro.timer;
     updateTimerInterval = setInterval(updateTimer, 100);
-    updateColor(pomodoro.state);
+    setBackground(pomodoro.state);
 }
 
 function updateTimer() {
@@ -144,21 +145,11 @@ const stateColors = {
     "idle": "black"
 };
 
-function updateColor(state) {
+function setBackground(state) {
     const stateColor = stateColors[state];
-    setBackground(`--${stateColor}`);
-    setFavicon(`img/${stateColor}.ico`);
-}
-
-function setBackground(rootVariable) {
     const style = getComputedStyle(document.documentElement);
-    const color = style.getPropertyValue(rootVariable);
+    const color = style.getPropertyValue(`--${stateColor}`);
     document.body.style.backgroundColor = color;
-}
-
-function setFavicon(faviconLink) {
-    const favicon = document.getElementById("favicon");
-    favicon.setAttribute("href", faviconLink);
 }
 
 function handleTimerEnd() {

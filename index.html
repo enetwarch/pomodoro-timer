@@ -6,16 +6,20 @@
         <title>Pomodoro Timer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/style.css">
-        <link id="favicon" rel="icon" type="image/ico" href="img/black.ico">
+        <link id="favicon" rel="icon" type="image/ico" href="img/red.ico">
+        <script src="https://kit.fontawesome.com/0541e3b46f.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <section class="full-viewport">
-            <section class="card">
-                <h3 id="stateAndSession"><!--Work Session 1--></h3>
-                <h1 id="timer"><!--50:00--></h1>
-                <button id="reset">Reset</button>
-            </section>
-        </section>
+        <div class="watch">
+            <div class="output">
+                <div id="state">Work</div>
+                <div id="timer">50:00</div>
+                <div id="session">Session 1</div>
+            </div>
+            <div id="reset" class="input"><i class="fa-solid fa-rotate-right"></i></div>
+            <div id="play" class="input"><i class="fa-solid fa-play"></i></div>
+            <div id="settings" class="input"><i class="fa-solid fa-gear"></i></div>
+        </div>
         <script src="js/script.js" async defer></script>
     </body>
 </html>
