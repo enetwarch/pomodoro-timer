@@ -1,19 +1,26 @@
 # [Pomodoro Timer](https://enetwarch.github.io/pomodoro-timer/)
 
-This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the Pomodoro details, timer, and background color indicating work or rest states are displayed to keep it minimalistic. **The design is based off [Pomofocus](https://pomofocus.io/)**.
+This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. The website's UI is basically a smartwatch that has a few buttons to control the timer. Only the Pomodoro state, timer, and session are indicated in the output portion of the smartwatch.
 
-### Settings
+* **Reset**: **Tapping** this button will display a confirmation asking if the user wants to **soft reset** the timer. **Holding** will ask a **HARD reset** which resets the state, session, and timer based on the settings.
+* **Play/Pause**: **Tapping** this button will toggle the timer and dynamically set the icon to play or pause. Pressing the **space button** in your keyboard also triggers this button.
+* **Settings**: Allows the user to customize the timer to their liking. The default setting is as follows:
+    * Work Minutes: 25 minutes
+    * Rest Minutes: 5 minutes
+    * Long Break Minutes: 15 minutes
+    * Long Break Intervals: 4
 
-There is **no dynamic UI** that will help the user change the settings. The website will instead base it off of the personal hard-coded settings I set. The background color and favicon will change when the timer is running depending on the Pomodoro state, this will **default to black** if the timer is idle.
+### Tech Stack
 
-* **Work Minutes**: Red background, 50 minutes
-* **Rest Minutes**: Blue background, 10 minutes
-* **Long Break Minutes**: Green background, 60 minutes
-* **Long Break Intervals**: 4
+* **HTML5**: Structures the pomodoro timer.
+* **CSS3**: Designs the pomodoro timer.
+* **JavaScript**: Adds functionality to the pomodoro timer.
 
-### Controls
+### Resources
 
-* **Tap, Space or Left Click**: Toggles the timer to idle or running.
-* **Hold Space or Left Click**: Will have varying changes depending on how long you hold.
-    * **3 seconds**: Resets the current session's timer.
-    * **5 seconds**: Hard resets the timer and reverts it back to work state, session 1.
+* **[Google Fonts](https://fonts.google.com/)**: Source of the [Varela Round](https://fonts.google.com/specimen/Varela+Round) font family which is used in this project.
+* [**Font Awesome**](https://fontawesome.com/): Used for the UI icons.
+    * [Reset](https://fontawesome.com/icons/rotate-right?s=solid)
+    * [Play](https://fontawesome.com/icons/play?s=solid)
+    * [Pause](https://fontawesome.com/icons/pause?s=solid)
+    * [Settings](https://fontawesome.com/icons/gear?s=solid)
