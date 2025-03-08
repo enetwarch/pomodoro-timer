@@ -1,6 +1,6 @@
 # [Pomodoro Timer](https://enetwarch.github.io/pomodoro-timer/)
 
-This is a personal Pomodoro Timer that I built as a small project for honing my **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. The website's UI is basically a smartwatch that has a few buttons to control the timer. Only the Pomodoro state, timer, and session are indicated in the output portion of the smartwatch.
+This is a Pomodoro Timer that I built as a small project for practicing **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the Pomodoro state, timer, and session are indicated in the output to maintain a minimalistic look.
 
 * **Reset**: **Tapping** this button will display a confirmation asking if the user wants to **soft reset** the timer. **Holding** will ask a **HARD reset** which resets the state, session, and timer based on the settings.
 * **Play/Pause**: **Tapping** this button will toggle the timer and dynamically set the icon to play or pause. Pressing the **space button** in your keyboard also triggers this button.

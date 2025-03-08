@@ -4,6 +4,8 @@
     --black-1: #1a1a1a;
     --black-2: #333333;
     --black-3: #4d4d4d;
+    --blue: #608cab;
+    --green: #72a079;
     --red: #bb4948;
     --white: #e6e6e6;
 }
@@ -30,20 +32,62 @@ body {
     flex-direction: column;
     justify-content: center;
     min-height: 100vh;
-    transition: background-color 0.5s;
 }
 
-.watch {
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+header {
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem clamp(1rem, 10vw, 10rem);
+    width: 100%;
+}
+
+header nav {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+}
+
+header nav .white {
+    color: var(--white);
+}
+
+header nav .red {
+    color: var(--red);
+}
+
+header nav .green {
+    color: var(--green);
+}
+
+header nav .blue {
+    color: var(--blue);
+}
+
+main {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    padding-block: 2rem;
+    width: 100vw;
+}
+
+main .watch {
     background-color: var(--black-2);
     border-radius: 2rem;
     display: grid;
-    flex-direction: column;
     gap: 1rem;
     grid-template: 12rem 4rem / repeat(3, 4rem);
     padding: 2rem;
 }
 
-.watch .output {
+main .watch .output {
     align-items: center;
     background-color: var(--red);
     border-radius: 1rem;
@@ -56,11 +100,11 @@ body {
     overflow: hidden;
 }
 
-.watch .output #timer {
+main .watch .output #timer {
     font-size: 4rem;
 }
 
-.watch .input {
+main .watch .input {
     align-items: center;
     background-color: var(--black-3);
     border-radius: 100px;
@@ -70,6 +114,14 @@ body {
     justify-content: center;
 }
 
-.watch .input:hover {
+main .watch .input:hover {
     cursor: pointer;
+}
+
+footer {
+    align-items: center;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
 }
