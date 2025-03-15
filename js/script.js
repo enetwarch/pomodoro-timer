@@ -132,6 +132,8 @@ function changeStateColor(state) {
         setTimeout(() => {
             URL.revokeObjectURL(url);
         }, 1 * second);
+    }).catch(error => {
+        console.error(error);
     });
 }
 
