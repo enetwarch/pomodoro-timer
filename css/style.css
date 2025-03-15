@@ -1,13 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 :root {
-    --black-1: #1a1a1a;
-    --black-2: #333333;
-    --black-3: #4d4d4d;
     --blue: #608cab;
     --green: #72a079;
     --red: #bb4948;
-    --white: #e6e6e6;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --primary-1: hsl(0, 0%, 90%);
+        --primary-2: hsl(0, 0%, 80%);
+        --primary-3: hsl(0, 0%, 70%);
+        --secondary-1: hsl(0, 0%, 10%);
+        --secondary-2: hsl(0, 0%, 20%);
+        --secondary-3: hsl(0, 0%, 30%);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-1: hsl(0, 0%, 10%);
+        --primary-2: hsl(0, 0%, 20%);
+        --primary-3: hsl(0, 0%, 30%);
+        --secondary-1: hsl(0, 0%, 90%);
+        --secondary-2: hsl(0, 0%, 80%);
+        --secondary-3: hsl(0, 0%, 70%);
+    }
 }
 
 * {
@@ -26,7 +44,7 @@ html {
 
 body {
     align-items: center;
-    background-color: var(--black-1);
+    background-color: var(--primary-1);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,7 +54,7 @@ body {
 
 .output {
     align-items: center;
-    color: var(--white);
+    color: var(--secondary-1);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -54,9 +72,9 @@ body {
 
 .input {
     align-items: center;
-    background-color: var(--black-2);
+    background-color: var(--primary-2);
     border-radius: 100px;
-    color: var(--white);
+    color: var(--secondary-2);
     display: flex;
     font-size: 2rem;
     gap: 0.5rem;
@@ -67,7 +85,7 @@ body {
 }
 
 .input > * {
-    background-color: var(--black-3);
+    background-color: var(--primary-3);
     border-radius: 100px;
     display: flex;
     font-size: 2rem;
@@ -78,5 +96,6 @@ body {
 }
 
 .input > *:hover {
+    color: var(--secondary-3);
     cursor: pointer;
 }
