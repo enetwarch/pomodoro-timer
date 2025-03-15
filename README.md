@@ -6,7 +6,8 @@ This is a Pomodoro Timer that I built as a small project for practicing **JavaSc
     * **Tapping**: this button will display a confirmation asking if the user wants to **soft reset** the timer. 
     * **Holding**: will ask a **HARD reset** which resets the state, session, and timer based on the settings.
 * **Play/Pause** 
-    * **Tapping** this button will toggle the timer and dynamically set the icon to play or pause. Pressing the **space button** in your keyboard also triggers this button.
+    * **Tapping** this button will toggle the timer and dynamically set the icon to play or pause. 
+    * Pressing the **Space** button in your keyboard also triggers this button.
 * **Settings**: Allows the user to customize the timer to their liking. The default setting is as follows:
     * Work Minutes: 25 minutes
     * Rest Minutes: 5 minutes
