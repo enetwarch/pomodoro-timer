@@ -94,7 +94,6 @@ function softReset() {
     displayTimer();
 }
 
-const playElement = document.getElementById("play");
 let isRunning = false;
 let updateTimerInterval;
 let idleNotificationInterval;
@@ -123,10 +122,13 @@ function startTimer() {
 }
 
 function changePlayIcon() {
+    const playElement = document.getElementById("play");
     if (isRunning) {
-        playElement.innerHTML = `<i class="fa-solid fa-pause"></i>`;
+        playElement.classList.remove("fa-play");
+        playElement.classList.add("fa-pause");
     } else {
-        playElement.innerHTML = `<i class="fa-solid fa-play"></i>`;
+        playElement.classList.remove("fa-pause");
+        playElement.classList.add("fa-play");
     }
 }
 
