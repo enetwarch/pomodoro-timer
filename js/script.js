@@ -11,9 +11,9 @@ window.addEventListener("load", () => {
 });
 
 const listenerConfig = [
+    [() => toggleTimer(), [["click", "play"], ["keyup", "Space"]]],
     [() => hardReset(), [["touchstart", "reset"], ["mousedown", "reset"]]],
     [() => softReset(), [["touchend", "reset"], ["mouseup", "reset"]]],
-    [() => toggleTimer(), [["click", "play"], ["keyup", "Space"]]],
     [() => changeSettings(), [["click", "settings"]]]
 ];
 
@@ -83,20 +83,33 @@ function stopTimer() {
         const body = "Timer is idle.";
         pushNotification(body);
     }, 5 * minute);
+    changeStateColor("idle");
     changePlayElement();
 }
 
 function startTimer() {
     isRunning = true;
     endingTime = Date.now() + pomodoro.timer;
-    updateTimerInterval = setInterval(updateTimer, 1 * millisecond);
+    updateTimerInterval = setInterval(() => {
+        pomodoro.timer = endingTime - Date.now();
+        pomodoro.timer < 0 ? handleTimerEnd() : displayTimer();    
+    }, 1 * millisecond);
     clearInterval(idleNotificationInterval);
+    changeStateColor(pomodoro.state);
     changePlayElement();
 }
 
-function updateTimer() {
-    pomodoro.timer = endingTime - Date.now();
-    pomodoro.timer < 0 ? handleTimerEnd() : displayTimer();
+const stateColors = {
+    "idle": "--primary-1",
+    "work": "--red",
+    "rest": "--blue",
+    "longBreak": "--green"
+}
+
+function changeStateColor(state) {
+    const root = getComputedStyle(document.documentElement);
+    const stateColor = root.getPropertyValue(stateColors[state]);
+    document.body.style.backgroundColor = stateColor;
 }
 
 function changePlayElement() {
@@ -173,6 +186,7 @@ function hardReset() {
         resetElement.classList.toggle("inverted");
         setTimeout(() => {
             resetTimer(true);
+            resetButtonPressed = false;
         }, 250 * millisecond);
     }, 1 * second);
 }
@@ -187,24 +201,22 @@ function softReset() {
     }, 250 * millisecond);
 }
 
-function resetTimer(isHardReset) {
-    if (isHardReset) {
+function resetTimer(hardReset) {
+    if (hardReset) {
         if (confirm("Do you want to HARD reset the timer?")) {
             pomodoro.state = "work";
             pomodoro.timer = pomodoro.settings.workMinutes;
             pomodoro.session = 1;
             displayOutput();
         }
-        resetButtonPressed = false;
-        resetElement.classList.toggle("inverted"); 
     } else {
         if (confirm("Do you want to soft reset the timer?")) {
             const stateMinutes = `${pomodoro.state}Minutes`;
             pomodoro.timer = pomodoro.settings[stateMinutes];
             displayTimer();    
         }
-        resetElement.classList.toggle("inverted");
     }
+    resetElement.classList.toggle("inverted"); 
 }
 
 function changeSettings() {
@@ -235,6 +247,7 @@ function changeSetting(setting, message) {
         }
         const changedSetting = isMinutes ? input * minute : input;
         pomodoro.settings[setting] = changedSetting;
+        break;
     }
 }
 
