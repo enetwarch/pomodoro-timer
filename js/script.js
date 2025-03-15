@@ -56,7 +56,7 @@ const defaultPomodoro = {
 
 function retrievePomodoro() {
     const storedPomodoro = localStorage.getItem("pomodoro");
-    if (storedPomodoro === null || storedPomodoro === undefined) {
+    if (!storedPomodoro) {
         pomodoro = structuredClone(defaultPomodoro);
     } else {
         pomodoro = JSON.parse(storedPomodoro);
@@ -65,33 +65,6 @@ function retrievePomodoro() {
 
 function savePomodoro() {
     localStorage.setItem("pomodoro", JSON.stringify(pomodoro));
-}
-
-let resetButtonPressed = false;
-let hardResetTimeout;
-
-function hardReset() {
-    if (resetButtonPressed) return;
-    resetButtonPressed = true;
-    hardResetTimeout = setTimeout(() => {
-        if (confirm("Do you want to HARD reset the timer?")) {
-            pomodoro.state = "work";
-            pomodoro.timer = pomodoro.settings.workMinutes;
-            pomodoro.session = 1;
-        }
-        resetButtonPressed = false;
-        stopTimer();
-        displayOutput();
-    }, 1 * second);
-}
-
-function softReset() {
-    clearTimeout(hardResetTimeout);
-    if (confirm("Do you want to soft reset the timer?")) {
-        pomodoro.timer = pomodoro.settings[`${pomodoro.state}Minutes`];
-    }
-    stopTimer();
-    displayTimer();
 }
 
 let isRunning = false;
@@ -110,7 +83,7 @@ function stopTimer() {
         const body = "Timer is idle.";
         pushNotification(body);
     }, 5 * minute);
-    changePlayIcon();
+    changePlayElement();
 }
 
 function startTimer() {
@@ -118,10 +91,15 @@ function startTimer() {
     endingTime = Date.now() + pomodoro.timer;
     updateTimerInterval = setInterval(updateTimer, 1 * millisecond);
     clearInterval(idleNotificationInterval);
-    changePlayIcon();
+    changePlayElement();
 }
 
-function changePlayIcon() {
+function updateTimer() {
+    pomodoro.timer = endingTime - Date.now();
+    pomodoro.timer < 0 ? handleTimerEnd() : displayTimer();
+}
+
+function changePlayElement() {
     const playElement = document.getElementById("play");
     if (isRunning) {
         playElement.classList.remove("fa-play");
@@ -130,11 +108,7 @@ function changePlayIcon() {
         playElement.classList.remove("fa-pause");
         playElement.classList.add("fa-play");
     }
-}
-
-function updateTimer() {
-    pomodoro.timer = endingTime - Date.now();
-    pomodoro.timer < 0 ? handleTimerEnd() : displayTimer();
+    playElement.classList.toggle("inverted");
 }
 
 const stateElement = document.getElementById("state");
@@ -158,15 +132,11 @@ function displayTimer() {
     timerElement.innerText = time;
 }
 
-function sentenceCase(string) {
-    string = string.replace(/([A-Z])/g, ' $1');
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function handleTimerEnd() {
     toggleTimer();
     if (pomodoro.state === "work") {
-        const notAtInterval = pomodoro.session !== pomodoro.settings.longBreakInterval;
+        const interval = pomodoro.settings.longBreakInterval;
+        const notAtInterval = pomodoro.session !== interval;
         pomodoro.state = notAtInterval ? "rest" : "longBreak";
     } else {
         const atRestState = pomodoro.state === "rest";
@@ -174,7 +144,9 @@ function handleTimerEnd() {
         pomodoro.state = "work";
     }
     pomodoro.timer = pomodoro.settings[`${pomodoro.state}Minutes`];
-    const body = getStateForMinutes();
+    const state = sentenceCase(pomodoro.state);
+    const minutes = pomodoro.timer / minute;
+    const body = `${state} for ${minutes} minutes.`;
     pushNotification(body);
     displayOutput();
 }
@@ -185,22 +157,68 @@ async function pushNotification(body) {
     }
     if (Notification.permission === "granted") {
         const title = "Pomodoro Timer";
-        new Notification(title, {body}); 
+        new Notification(title, { body }); 
     }
 }
 
-function getStateForMinutes() {
-    const state = sentenceCase(pomodoro.state);
-    const minutes = pomodoro.timer / minute;
-    return `${state} for ${minutes} minutes.`;
+const resetElement = document.getElementById("reset");
+let resetButtonPressed = false;
+let hardResetTimeout;
+
+function hardReset() {
+    if (resetButtonPressed) return;
+    resetButtonPressed = true;
+    hardResetTimeout = setTimeout(() => {
+        if (isRunning) stopTimer();
+        resetElement.classList.toggle("inverted");
+        setTimeout(() => {
+            resetTimer(true);
+        }, 250 * millisecond);
+    }, 1 * second);
+}
+
+function softReset() {
+    clearTimeout(hardResetTimeout);
+    resetButtonPressed = false;
+    if (isRunning) stopTimer();
+    resetElement.classList.toggle("inverted");
+    setTimeout(() => {
+        resetTimer(false);
+    }, 250 * millisecond);
+}
+
+function resetTimer(isHardReset) {
+    if (isHardReset) {
+        if (confirm("Do you want to HARD reset the timer?")) {
+            pomodoro.state = "work";
+            pomodoro.timer = pomodoro.settings.workMinutes;
+            pomodoro.session = 1;
+            displayOutput();
+        }
+        resetButtonPressed = false;
+        resetElement.classList.toggle("inverted"); 
+    } else {
+        if (confirm("Do you want to soft reset the timer?")) {
+            const stateMinutes = `${pomodoro.state}Minutes`;
+            pomodoro.timer = pomodoro.settings[stateMinutes];
+            displayTimer();    
+        }
+        resetElement.classList.toggle("inverted");
+    }
 }
 
 function changeSettings() {
-    const settings = structuredClone(pomodoro.settings);
-    for (const setting in settings) {
-        const message = `Modify ${sentenceCase(setting)}`;
-        changeSetting(setting, message);
-    }
+    if (isRunning) stopTimer();
+    const settingsElement = document.getElementById("settings");
+    settingsElement.classList.toggle("inverted");
+    setTimeout(() => {
+        const settings = structuredClone(pomodoro.settings);
+        for (const setting in settings) {
+            const message = `Modify ${sentenceCase(setting)}`;
+            changeSetting(setting, message);
+        }
+        settingsElement.classList.toggle("inverted");
+    }, 250 * millisecond);
 }
 
 function changeSetting(setting, message) {
@@ -209,13 +227,18 @@ function changeSetting(setting, message) {
     if (isMinutes) defaultValue /= minute; 
     while (true) {
         let input = prompt(message, defaultValue);
-        if (input === null) break;
+        if (!input) break;
         input = parseInt(input);
         if (isNaN(input)) {
             alert("Please input a number.");
             continue;
         }
-        pomodoro.settings[setting] = isMinutes ? input * minute : input;
-        break;
+        const changedSetting = isMinutes ? input * minute : input;
+        pomodoro.settings[setting] = changedSetting;
     }
+}
+
+function sentenceCase(string) {
+    string = string.replace(/([A-Z])/g, ' $1');
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
