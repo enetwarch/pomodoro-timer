@@ -8,6 +8,7 @@ window.addEventListener("load", () => {
     retrievePomodoro();
     setInterval(savePomodoro, 1 * minute);
     displayOutput();
+    changeStateColor("idle");
 });
 
 const listenerConfig = [
@@ -110,6 +111,28 @@ function changeStateColor(state) {
     const root = getComputedStyle(document.documentElement);
     const stateColor = root.getPropertyValue(stateColors[state]);
     document.body.style.backgroundColor = stateColor;
+    const svgType = "image/svg+xml";
+    fetch("../img/favicon.svg").then(response => {
+        return response.text();
+    }).then(svgText => {
+        const parser = new DOMParser();
+        const svgDocument = parser.parseFromString(svgText, svgType);
+        const circle = svgDocument.querySelector("circle");
+        circle.setAttribute("fill", stateColor);
+        return svgDocument;
+    }).then(svgDocument => {
+        const serializer = new XMLSerializer();
+        return serializer.serializeToString(svgDocument);
+    }).then(svgText => {
+        const blob = new Blob([svgText], { "type": svgType });
+        return URL.createObjectURL(blob);
+    }).then(url => {
+        const favicon = document.getElementById("favicon");
+        favicon.href = url;
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 1 * second);
+    });
 }
 
 function changePlayElement() {
