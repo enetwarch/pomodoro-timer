@@ -14,12 +14,6 @@ This is a Pomodoro Timer that I built as a small project for practicing **JavaSc
     * Long Break Minutes: 15 minutes
     * Long Break Intervals: 4
 
-### Tech Stack
-
-* **HTML5**: Structures the pomodoro timer.
-* **CSS3**: Designs the pomodoro timer.
-* **JavaScript**: Adds functionality to the pomodoro timer.
-
 ### Resources
 
 * **[Google Fonts](https://fonts.google.com/)**: Source of the [Varela Round](https://fonts.google.com/specimen/Varela+Round) font family which is used in this project.
