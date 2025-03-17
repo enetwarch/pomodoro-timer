@@ -37,10 +37,6 @@
     user-select: none;
 }
 
-html {
-    font-size: clamp(12px, 2vw, 16px);
-}
-
 body {
     align-items: center;
     display: flex;
@@ -102,4 +98,10 @@ body {
 .input > *.inverted {
     background-color: var(--secondary-1);
     color: var(--primary-1);
+}
+
+@media only screen and (max-width: 800px) {
+    html {
+        font-size: 12px;
+    }
 }
