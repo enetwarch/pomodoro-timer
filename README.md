@@ -17,7 +17,7 @@ This is a Pomodoro Timer that I built as a small project for practicing **JavaSc
 ### Resources
 
 * [**Font Awesome**](https://fontawesome.com/): Used for the UI icons.
-    * [Reset](https://fontawesome.com/icons/rotate-right?s=solid)
-    * [Play](https://fontawesome.com/icons/play?s=solid)
-    * [Pause](https://fontawesome.com/icons/pause?s=solid)
-    * [Settings](https://fontawesome.com/icons/gear?s=solid)
+    * [Reset](https://fontawesome.com/icons/rotate-right)
+    * [Play](https://fontawesome.com/icons/play)
+    * [Pause](https://fontawesome.com/icons/pause)
+    * [Settings](https://fontawesome.com/icons/gear)
