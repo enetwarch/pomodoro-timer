@@ -68,13 +68,13 @@ body {
     align-items: center;
     background-color: var(--primary-2);
     border-radius: 1rem;
+    bottom: 2rem;
     display: flex;
     font-size: 2rem;
     gap: 1rem;
     justify-content: center;
     padding: 1rem;
     position: fixed;
-    top: 80%;
 }
 
 .input > * {
