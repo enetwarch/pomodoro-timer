@@ -4,27 +4,13 @@
 }
 
 :root {
+    --dark-1: hsl(0, 0%, 10%);
+    --dark-2: hsl(0, 0%, 20%);
+    --dark-3: hsl(0, 0%, 30%);
+    --light-1: hsl(0, 0%, 90%);
     --blue: #608cab;
     --green: #72a079;
     --red: #bb4948;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        --primary-1: hsl(0, 0%, 90%);
-        --primary-2: hsl(0, 0%, 80%);
-        --primary-3: hsl(0, 0%, 70%);
-        --secondary-1: hsl(0, 0%, 10%);
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-1: hsl(0, 0%, 10%);
-        --primary-2: hsl(0, 0%, 20%);
-        --primary-3: hsl(0, 0%, 30%);
-        --secondary-1: hsl(0, 0%, 90%);
-    }
 }
 
 * {
@@ -49,7 +35,7 @@ body {
 
 .input {
     align-items: center;
-    background-color: var(--primary-2);
+    background-color: var(--dark-2);
     border-radius: 1rem;
     bottom: 2rem;
     display: flex;
@@ -61,9 +47,9 @@ body {
 }
 
 .input > * {
-    background-color: var(--primary-3);
+    background-color: var(--dark-3);
     border-radius: 1rem;
-    color: var(--secondary-1);
+    color: var(--light-1);
     display: flex;
     font-size: 2rem;
     height: 4rem;
@@ -79,13 +65,13 @@ body {
 }
 
 .input > *.inverted {
-    background-color: var(--secondary-1);
-    color: var(--primary-1);
+    background-color: var(--light-1);
+    color: var(--dark-1);
 }
 
 .output {
     align-items: center;
-    color: var(--secondary-1);
+    color: var(--light-1);
     display: flex;
     flex-direction: column;
     justify-content: center;

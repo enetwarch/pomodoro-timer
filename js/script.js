@@ -101,7 +101,7 @@ function startTimer() {
 }
 
 const stateColors = {
-    "idle": "--primary-1",
+    "idle": "--dark-1",
     "work": "--red",
     "rest": "--blue",
     "longBreak": "--green"
