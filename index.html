@@ -3,22 +3,24 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Pomodoro Timer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pomodoro Timer</title>
         <link rel="stylesheet" href="css/style.css">
         <link id="favicon" rel="icon" type="image/svg+xml" href="img/favicon.svg?v=1">
         <script src="https://kit.fontawesome.com/0541e3b46f.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div class="input">
-            <i id="reset" class="fa-solid fa-rotate-right"></i>
-            <i id="play" class="fa-solid fa-play"></i>
-            <i id="settings" class="fa-solid fa-gear"></i>
+        <div class="input-container">
+            <i id="reset" class="input-button fa-solid fa-rotate-right"></i>
+            <i id="play" class="input-button fa-solid fa-play"></i>
+            <i id="settings" class="input-button fa-solid fa-gear"></i>
         </div>
-        <div class="output">
-            <div id="state"></div>
-            <div id="timer"></div>
-            <div id="session"></div>
+        <div class="output-container">
+            <div class="pomodoro-container">
+                <div id="state" class="pomodoro-state"></div>
+                <div id="timer" class="pomodoro-timer"></div>
+                <div id="session" class="pomodoro-session"></div>    
+            </div>
         </div>
         <script src="js/script.js" async defer></script>
     </body>

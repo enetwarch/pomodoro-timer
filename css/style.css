@@ -33,10 +33,10 @@ body {
     width: 100%;
 }
 
-.input {
+.input-container {
     align-items: center;
     background-color: var(--dark-2);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     bottom: 2rem;
     display: flex;
     font-size: 2rem;
@@ -46,9 +46,17 @@ body {
     position: fixed;
 }
 
-.input > * {
+@media only screen and (max-height: 600px) {
+    .input-container {
+        bottom: unset;
+        flex-direction: column;
+        right: 2rem;
+    }
+}
+
+.input-button {
     background-color: var(--dark-3);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     color: var(--light-1);
     display: flex;
     font-size: 2rem;
@@ -59,35 +67,54 @@ body {
     width: 4rem;
 }
 
-.input > *:hover {
-    cursor: pointer;
-    opacity: 0.8;
+.input-button:focus-visible {
+    outline: 2px solid var(--light-1);
 }
 
-.input > *.inverted {
+.input-button:hover {
+    cursor: pointer;
+}
+
+.input-button:active {
+    opacity: 0.9;
+}
+
+.input-button.inverted {
     background-color: var(--light-1);
     color: var(--dark-1);
 }
 
-.output {
+.output-container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.pomodoro-container {
     align-items: center;
-    color: var(--light-1);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.output #state,
-.output #session {
+.pomodoro-state,
+.pomodoro-session {
+    color: var(--light-1);
     font-size: 2rem;
 }
 
-.output #timer {
+.pomodoro-timer {
+    color: var(--light-1);
     font-size: 8rem;
 }
 
-@media only screen and (max-width: 800px) {
-    html {
-        font-size: 12px;
+@media only screen and (max-width: 400px) {
+    .pomodoro-timer {
+        font-size: 7rem;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .pomodoro-timer {
+        font-size: 6rem;
     }
 }
