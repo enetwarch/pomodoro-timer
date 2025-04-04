@@ -1,4 +1,4 @@
-# [Pomodoro Timer](https://enetwarch.github.io/pomodoro-timer/)
+# Pomodoro Timer
 
 This is a Pomodoro Timer that I built as a small project for practicing **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the Pomodoro state, timer, and session are indicated in the output to maintain a minimalistic look.
 
@@ -21,3 +21,7 @@ This is a Pomodoro Timer that I built as a small project for practicing **JavaSc
     * [Play](https://fontawesome.com/icons/play)
     * [Pause](https://fontawesome.com/icons/pause)
     * [Settings](https://fontawesome.com/icons/gear)
+
+### License
+
+* [MIT License](LICENSE)
