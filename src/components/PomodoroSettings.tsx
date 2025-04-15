@@ -18,6 +18,7 @@ export default function PomodoroSettings() {
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
           <Settings />
+          <span className="sr-only">Settings</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[250px]">

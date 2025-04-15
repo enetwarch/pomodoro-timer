@@ -1,18 +1,19 @@
-import ThemeToggle from "@/components/ThemeToggle";
-import PomodoroToggle from "@/components/PomodoroToggle";
 import PomodoroSettings from "@/components/PomodoroSettings";
+import PomodoroToggle from "@/components/PomodoroToggle";
 import ThemeProvider from "@/components/ThemeProvider";
+import ThemeToggle from "@/components/ThemeToggle";
+import { Card } from "@/components/ui/card";
 
 export default function App() {
   return (
     <div className="min-h-screen w-full flex justify-center items-center duration-250">
-      <ThemeProvider>
-        <div className="">
+      <Card className="flex flex-row gap-2 px-2 py-2">
+        <ThemeProvider>
           <ThemeToggle />
-          <PomodoroToggle />
-          <PomodoroSettings />
-        </div>
-      </ThemeProvider>
+        </ThemeProvider>
+        <PomodoroToggle />
+        <PomodoroSettings />
+      </Card>
     </div>
   );
 }

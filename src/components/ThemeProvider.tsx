@@ -35,7 +35,11 @@ export default function ThemeProvider({
     root.classList.remove("light", "dark");
 
     if (theme === "system") {
-      const systemTheme = getSystemTheme();
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches
+        ? "dark"
+        : "light";
+
       root.classList.add(systemTheme);
     } else {
       root.classList.add(theme);
@@ -56,14 +60,6 @@ export default function ThemeProvider({
     </ThemeProviderContext.Provider>
   );
 }
-
-export const getSystemTheme = (): "dark" | "light" => {
-  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-
-  return systemTheme;
-};
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
