@@ -1,27 +1,54 @@
-# Pomodoro Timer
+# React + TypeScript + Vite
 
-This is a Pomodoro Timer that I built as a small project for practicing **JavaScript fundamentals**. It's designed to improve focus and productivity using the **Pomodoro Technique**. Only the Pomodoro state, timer, and session are indicated in the output to maintain a minimalistic look.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-* **Reset**
-    * **Tapping**: this button will display a confirmation asking if the user wants to **soft reset** the timer. 
-    * **Holding**: will ask a **HARD reset** which resets the state, session, and timer based on the settings.
-* **Play/Pause** 
-    * **Tapping** this button will toggle the timer and dynamically set the icon to play or pause. 
-    * Pressing the **Space** button in your keyboard also triggers this button.
-* **Settings**: Allows the user to customize the timer to their liking. The default setting is as follows:
-    * Work Minutes: 25 minutes, red background
-    * Rest Minutes: 5 minutes, blue background
-    * Long Break Minutes: 15 minutes, green background
-    * Long Break Intervals: 4
+Currently, two official plugins are available:
 
-### Resources
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-* [**Font Awesome**](https://fontawesome.com/): Used for the UI icons.
-    * [Reset](https://fontawesome.com/icons/rotate-right)
-    * [Play](https://fontawesome.com/icons/play)
-    * [Pause](https://fontawesome.com/icons/pause)
-    * [Settings](https://fontawesome.com/icons/gear)
+## Expanding the ESLint configuration
 
-### License
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-* [MIT License](LICENSE)
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```
