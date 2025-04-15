@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -22,7 +23,7 @@ export default function PomodoroSettings() {
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[250px]">
-        <DialogHeader>
+        <DialogHeader className="text-left">
           <DialogTitle>Settings</DialogTitle>
           <DialogDescription>
             Customize your pomodoro workflow.
@@ -58,8 +59,10 @@ export default function PomodoroSettings() {
             <Input id="longBreakInterval" value="4" className="w-[5rem]" />
           </div>
         </div>
-        <DialogFooter>
-          <Button variant="outline">Cancel</Button>
+        <DialogFooter className="flex-row justify-end">
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
           <Button type="submit">Save</Button>
         </DialogFooter>
       </DialogContent>
