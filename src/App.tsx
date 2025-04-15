@@ -1,6 +1,7 @@
 import PomodoroReset from "@/components/PomodoroReset";
 import PomodoroSettings from "@/components/PomodoroSettings";
 import PomodoroToggle from "@/components/PomodoroToggle";
+import SupportButton from "@/components/SupportButton";
 import ThemeProvider from "@/components/ThemeProvider";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +27,7 @@ export default function App() {
           </CardTitle>
         </CardContent>
         <CardFooter className="justify-center border-t gap-2">
+          <SupportButton />
           <PomodoroReset />
           <PomodoroToggle />
           <PomodoroSettings />
