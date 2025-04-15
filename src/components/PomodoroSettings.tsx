@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button"
-import { Settings } from 'lucide-react'
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Settings } from "lucide-react";
 
 export default function PomodoroSettings() {
   return (
@@ -20,37 +20,48 @@ export default function PomodoroSettings() {
           <Settings />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[300px]">
+      <DialogContent className="w-[250px]">
         <DialogHeader>
           <DialogTitle>Settings</DialogTitle>
           <DialogDescription>
-            Make changes to your pomodoro settings here. Click save when you're done or close the dialog to cancel.
+            Customize your pomodoro workflow.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex justify-between items-center gap-4">
             <Label htmlFor="workMinutes">
-              Work
+              Work <br />
+              Minutes
             </Label>
-            <Input id="workMinutes" value="50" className="col-span-3" />
+            <Input id="workMinutes" value="50" className="w-[5rem]" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex justify-between items-center gap-4">
             <Label htmlFor="shortBreakMinutes">
-              Short Break
+              Short Break <br />
+              Minutes
             </Label>
-            <Input id="shortBreakMinutes" value="10" className="col-span-3" />
+            <Input id="shortBreakMinutes" value="10" className="w-[5rem]" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex justify-between items-center gap-4">
             <Label htmlFor="longBreakMinutes">
-              Long Break
+              Long Break <br />
+              Minutes
             </Label>
-            <Input id="longBreakMinutes" value="60" className="col-span-3" />
+            <Input id="longBreakMinutes" value="60" className="w-[5rem]" />
+          </div>
+          <div className="flex justify-between items-center gap-4">
+            <Label htmlFor="longBreakInterval">
+              Long Break <br />
+              Interval
+            </Label>
+            <Input id="longBreakInterval" value="4" className="w-[5rem]" />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button variant="outline">Cancel</Button>
+          <Button type="submit">Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

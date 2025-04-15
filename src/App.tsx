@@ -1,7 +1,6 @@
-import PomodoroSettings from "@/components/PomodoroSettings";
-import ThemeProvider from "@/components/ThemeProvider"
 import ModeToggle from "@/components/ModeToggle";
-
+import PomodoroSettings from "@/components/PomodoroSettings";
+import ThemeProvider from "@/components/ThemeProvider";
 
 export default function App() {
   return (
@@ -11,5 +10,5 @@ export default function App() {
         <PomodoroSettings />
       </ThemeProvider>
     </div>
-  )
+  );
 }
