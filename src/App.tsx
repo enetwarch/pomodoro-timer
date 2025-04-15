@@ -4,8 +4,8 @@ import ThemeProvider from "@/components/ThemeProvider";
 
 export default function App() {
   return (
-    <div className="min-h-screen w-full flex justify-center items-center">
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <div className="min-h-screen w-full flex justify-center items-center duration-250">
+      <ThemeProvider>
         <ModeToggle />
         <PomodoroSettings />
       </ThemeProvider>
