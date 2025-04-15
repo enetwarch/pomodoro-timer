@@ -1,12 +1,8 @@
-import {
-  type Theme,
-  getSystemTheme,
-  useTheme,
-} from "@/components/ThemeProvider";
-import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
+import { type Theme, useTheme, getSystemTheme } from "@/components/ThemeProvider";
+import { Button } from "@/components/ui/button";
 
-export default function ModeToggle() {
+export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   const handleClick = () => {
@@ -17,8 +13,8 @@ export default function ModeToggle() {
       setTheme(systemTheme === "dark" ? "light" : "dark");
     } else {
       setTheme(newTheme);
-    }
-  };
+    }   
+  }
 
   return (
     <Button variant="outline" size="icon" onClick={handleClick}>
