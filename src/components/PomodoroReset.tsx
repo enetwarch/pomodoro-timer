@@ -31,7 +31,8 @@ export default function PomodoroReset() {
             resetting your session and state.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex-row justify-end">
+        <div />
+        <DialogFooter className="flex-row justify-end flex-wrap">
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
@@ -54,7 +55,7 @@ export default function PomodoroReset() {
                   <Label htmlFor="neverShowAgain">Never show this again</Label>
                 </div>
               </div>
-              <DialogFooter className="flex-row justify-end">
+              <DialogFooter className="flex-row justify-end flex-wrap">
                 <DialogClose asChild>
                   <Button variant="outline">Cancel</Button>
                 </DialogClose>

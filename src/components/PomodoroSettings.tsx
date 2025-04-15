@@ -22,7 +22,7 @@ export default function PomodoroSettings() {
           <span className="sr-only">Settings</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[250px]">
+      <DialogContent className="w-[300px]">
         <DialogHeader className="text-left">
           <DialogTitle>Settings</DialogTitle>
           <DialogDescription>
@@ -31,35 +31,23 @@ export default function PomodoroSettings() {
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
           <div className="flex justify-between items-center gap-4">
-            <Label htmlFor="workMinutes">
-              Work <br />
-              Minutes
-            </Label>
-            <Input id="workMinutes" value="50" className="w-[5rem]" />
+            <Label htmlFor="workMinutes">Work Minutes</Label>
+            <Input id="workMinutes" value="50" className="max-w-[5rem]" />
           </div>
           <div className="flex justify-between items-center gap-4">
-            <Label htmlFor="shortBreakMinutes">
-              Short Break <br />
-              Minutes
-            </Label>
-            <Input id="shortBreakMinutes" value="10" className="w-[5rem]" />
+            <Label htmlFor="shortBreakMinutes">Short Break Minutes</Label>
+            <Input id="shortBreakMinutes" value="10" className="max-w-[5rem]" />
           </div>
           <div className="flex justify-between items-center gap-4">
-            <Label htmlFor="longBreakMinutes">
-              Long Break <br />
-              Minutes
-            </Label>
-            <Input id="longBreakMinutes" value="60" className="w-[5rem]" />
+            <Label htmlFor="longBreakMinutes">Long Break Minutes</Label>
+            <Input id="longBreakMinutes" value="60" className="max-w-[5rem]" />
           </div>
           <div className="flex justify-between items-center gap-4">
-            <Label htmlFor="longBreakInterval">
-              Long Break <br />
-              Interval
-            </Label>
-            <Input id="longBreakInterval" value="4" className="w-[5rem]" />
+            <Label htmlFor="longBreakInterval">Long Break Interval</Label>
+            <Input id="longBreakInterval" value="4" className="max-w-[5rem]" />
           </div>
         </div>
-        <DialogFooter className="flex-row justify-end">
+        <DialogFooter className="flex-row justify-end flex-wrap">
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
