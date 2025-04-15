@@ -5,13 +5,7 @@ import SupportButton from "@/components/SupportButton";
 import ThemeProvider from "@/components/ThemeProvider";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function App() {
   return (
@@ -22,9 +16,7 @@ export default function App() {
           <Badge variant="secondary">Session 1</Badge>
         </CardHeader>
         <CardContent className="justify-center items-center">
-          <CardTitle className="font-extrabold text-7xl text-center">
-            50:00
-          </CardTitle>
+          <CardTitle className="font-extrabold text-7xl text-center">50:00</CardTitle>
         </CardContent>
         <CardFooter className="justify-center border-t gap-2">
           <SupportButton />

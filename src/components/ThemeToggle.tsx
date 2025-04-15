@@ -7,9 +7,7 @@ export default function ThemeToggle() {
 
   const handleClick = () => {
     if (theme === "system") {
-      const newTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "light"
-        : "dark";
+      const newTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
 
       setTheme(newTheme);
     } else {

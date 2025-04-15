@@ -26,9 +26,8 @@ export default function PomodoroReset() {
         <DialogHeader className="text-left">
           <DialogTitle>Reset</DialogTitle>
           <DialogDescription>
-            How would you like to reset your Pomodoro? Soft reset will only
-            reset your current timer. Hard reset will do the same while also
-            resetting your session and state.
+            How would you like to reset your Pomodoro? Soft reset will only reset your current timer. Hard reset will do
+            the same while also resetting your session and state.
           </DialogDescription>
         </DialogHeader>
         <div />
@@ -45,8 +44,8 @@ export default function PomodoroReset() {
               <DialogHeader className="text-left">
                 <DialogTitle>Confirmation</DialogTitle>
                 <DialogDescription>
-                  Are you sure you want to hard reset your timer? This will
-                  place your pomodoro state to <u>Work Session 1</u>.
+                  Are you sure you want to hard reset your timer? This will place your pomodoro state to{" "}
+                  <u>Work Session 1</u>.
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-2 py-2">

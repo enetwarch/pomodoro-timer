@@ -25,9 +25,7 @@ export default function PomodoroSettings() {
       <DialogContent className="w-[300px]">
         <DialogHeader className="text-left">
           <DialogTitle>Settings</DialogTitle>
-          <DialogDescription>
-            Customize your pomodoro workflow.
-          </DialogDescription>
+          <DialogDescription>Customize your pomodoro workflow.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
           <div className="flex justify-between items-center gap-4">

@@ -24,8 +24,7 @@ export default function SupportButton() {
         <DialogHeader className="text-left">
           <DialogTitle>Support</DialogTitle>
           <DialogDescription>
-            Would you mind taking a minute to visit the GitHub repository of
-            this site to give it a star?
+            Would you mind taking a minute to visit the GitHub repository of this site to give it a star?
           </DialogDescription>
         </DialogHeader>
         <div />
@@ -34,11 +33,7 @@ export default function SupportButton() {
             <Button variant="outline">No</Button>
           </DialogClose>
           <Button asChild>
-            <a
-              target="_blank"
-              href="https://github.com/enetwarch/pomodoro-timer"
-              rel="noreferrer"
-            >
+            <a target="_blank" href="https://github.com/enetwarch/pomodoro-timer" rel="noreferrer">
               Sure
             </a>
           </Button>
