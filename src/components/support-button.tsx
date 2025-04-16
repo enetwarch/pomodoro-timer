@@ -32,11 +32,13 @@ export default function SupportButton() {
           <DialogClose asChild>
             <Button variant="outline">No</Button>
           </DialogClose>
-          <Button asChild>
-            <a target="_blank" href="https://github.com/enetwarch/pomodoro-timer" rel="noreferrer">
-              Sure
-            </a>
-          </Button>
+          <DialogClose asChild>
+            <Button asChild>
+              <a target="_blank" href="https://github.com/enetwarch/pomodoro-timer" rel="noreferrer">
+                Sure
+              </a>
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
