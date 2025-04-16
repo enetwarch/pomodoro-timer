@@ -9,8 +9,8 @@ type Settings = {
 };
 
 type SettingsProviderState = {
-  settings: Settings;
-  setSettings: (settings: Settings) => void;
+  pomodoroSettings: Settings;
+  setPomodoroSettings: (settings: Settings) => void;
 };
 
 const defaultSettings: Settings = {
@@ -28,7 +28,7 @@ type SettingsProviderProps = {
 };
 
 function SettingsProvider({ children, storageKey = "settings", ...props }: SettingsProviderProps): React.ReactNode {
-  const [settings, setSettings] = useState<Settings>((): Settings => {
+  const [pomodoroSettings, setPomodoroSettings] = useState<Settings>((): Settings => {
     const storedSettings: string | null = localStorage.getItem(storageKey);
     if (!storedSettings) {
       return defaultSettings;
@@ -39,10 +39,10 @@ function SettingsProvider({ children, storageKey = "settings", ...props }: Setti
   });
 
   const value: SettingsProviderState = {
-    settings,
-    setSettings: (settings: Settings): void => {
+    pomodoroSettings,
+    setPomodoroSettings: (settings: Settings): void => {
       localStorage.setItem(storageKey, JSON.stringify(settings));
-      setSettings(settings);
+      setPomodoroSettings(settings);
     },
   };
 

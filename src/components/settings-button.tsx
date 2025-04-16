@@ -52,20 +52,20 @@ const formSchema: formSchemaObject = z.object({
 });
 
 function SettingsButton(): React.ReactNode {
-  const { settings, setSettings } = useSettings();
+  const { pomodoroSettings, setPomodoroSettings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      workMinutes: settings.workMinutes,
-      shortBreakMinutes: settings.shortBreakMinutes,
-      longBreakMinutes: settings.longBreakMinutes,
-      longBreakInterval: settings.longBreakInterval,
+      workMinutes: pomodoroSettings.workMinutes,
+      shortBreakMinutes: pomodoroSettings.shortBreakMinutes,
+      longBreakMinutes: pomodoroSettings.longBreakMinutes,
+      longBreakInterval: pomodoroSettings.longBreakInterval,
     },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>): void => {
-    setSettings(values);
+    setPomodoroSettings(values);
   };
 
   return (
