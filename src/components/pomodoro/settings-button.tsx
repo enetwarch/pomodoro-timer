@@ -17,6 +17,7 @@ import { useSettings } from "@/hooks/settings-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Settings as SettingsIcon } from "lucide-react";
 import type React from "react";
+import { useState } from "react";
 import { type Control, type FieldPath, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -53,6 +54,7 @@ const formSchema: formSchemaObject = z.object({
 
 function SettingsButton(): React.ReactNode {
   const { pomodoroSettings, setPomodoroSettings } = useSettings();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,10 +68,11 @@ function SettingsButton(): React.ReactNode {
 
   const onSubmit = (values: z.infer<typeof formSchema>): void => {
     setPomodoroSettings(values);
+    setIsDialogOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
           <SettingsIcon />
@@ -93,9 +96,7 @@ function SettingsButton(): React.ReactNode {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button type="submit">Save</Button>
-              </DialogClose>
+              <Button type="submit">Save</Button>
             </DialogFooter>
           </form>
         </Form>
