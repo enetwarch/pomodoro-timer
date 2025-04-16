@@ -20,25 +20,14 @@ const defaultSettings: Settings = {
   longBreakInterval: 4,
 };
 
-const defaultSettingsProviderState: SettingsProviderState = {
-  settings: defaultSettings,
-  setSettings: () => null,
-};
-
-const SettingsProviderContext = createContext<SettingsProviderState>(defaultSettingsProviderState);
+const SettingsProviderContext = createContext<SettingsProviderState | undefined>(undefined);
 
 type SettingsProviderProps = {
   children: React.ReactNode;
-  defaultSettings?: Settings;
   storageKey?: string;
 };
 
-function SettingsProvider({
-  children,
-  defaultSettings = defaultSettingsProviderState.settings,
-  storageKey = "settings",
-  ...props
-}: SettingsProviderProps): React.ReactNode {
+function SettingsProvider({ children, storageKey = "settings", ...props }: SettingsProviderProps): React.ReactNode {
   const [settings, setSettings] = useState<Settings>((): Settings => {
     const storedSettings: string | null = localStorage.getItem(storageKey);
     if (!storedSettings) {
@@ -65,7 +54,7 @@ function SettingsProvider({
 }
 
 const useSettings = (): SettingsProviderState => {
-  const context: SettingsProviderState = useContext(SettingsProviderContext);
+  const context: SettingsProviderState | undefined = useContext(SettingsProviderContext);
   if (!context) {
     throw Error("useSettings must be used within a SettingsProvider");
   }

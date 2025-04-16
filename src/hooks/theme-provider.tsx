@@ -1,31 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light" | "system";
+const defaultTheme = "system";
 
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
 };
 
-const defaultThemeProviderState: ThemeProviderState = {
-  theme: "system",
-  setTheme: () => null,
-};
-
-const ThemeProviderContext = createContext<ThemeProviderState>(defaultThemeProviderState);
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
 
 type ThemeProviderProps = {
   children: React.ReactNode;
-  defaultTheme?: Theme;
   storageKey?: string;
 };
 
-function ThemeProvider({
-  children,
-  defaultTheme = defaultThemeProviderState.theme,
-  storageKey = "theme",
-  ...props
-}: ThemeProviderProps): React.ReactNode {
+function ThemeProvider({ children, storageKey = "theme", ...props }: ThemeProviderProps): React.ReactNode {
   const [theme, setTheme] = useState<Theme>((): Theme => {
     return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
   });
@@ -58,7 +48,7 @@ function ThemeProvider({
 }
 
 const useTheme = (): ThemeProviderState => {
-  const context: ThemeProviderState = useContext(ThemeProviderContext);
+  const context: ThemeProviderState | undefined = useContext(ThemeProviderContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
