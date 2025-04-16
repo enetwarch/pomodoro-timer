@@ -63,7 +63,7 @@ export default function PomodoroReset() {
             </DialogTrigger>
             <DialogContent className="w-[300px]">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
                   <DialogHeader className="text-left">
                     <DialogTitle>Confirmation</DialogTitle>
                     <DialogDescription>
@@ -71,7 +71,7 @@ export default function PomodoroReset() {
                       <u>Work Session 1</u>.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex py-4">
+                  <div className="flex py-2">
                     <FormField
                       control={form.control}
                       name="neverShowHardResetPromptAgain"

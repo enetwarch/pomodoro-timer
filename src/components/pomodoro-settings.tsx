@@ -68,15 +68,17 @@ export default function PomodoroSettings() {
       </DialogTrigger>
       <DialogContent className="w-[300px]">
         <Form {...form}>
-          <DialogHeader className="text-left">
-            <DialogTitle>Settings</DialogTitle>
-            <DialogDescription>Customize your pomodoro workflow.</DialogDescription>
-          </DialogHeader>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 py-4">
-            <SettingsFormField control={form.control} name="workMinutes" label="Work Minutes" />
-            <SettingsFormField control={form.control} name="shortBreakMinutes" label="Short Break Minutes" />
-            <SettingsFormField control={form.control} name="longBreakMinutes" label="Long Break Minutes" />
-            <SettingsFormField control={form.control} name="longBreakInterval" label="Long Break Interval" />
+          <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <DialogHeader className="text-left">
+              <DialogTitle>Settings</DialogTitle>
+              <DialogDescription>Customize your pomodoro workflow.</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col justify-center gap-4 py-4">
+              <SettingsFormField control={form.control} name="workMinutes" label="Work Minutes" />
+              <SettingsFormField control={form.control} name="shortBreakMinutes" label="Short Break Minutes" />
+              <SettingsFormField control={form.control} name="longBreakMinutes" label="Long Break Minutes" />
+              <SettingsFormField control={form.control} name="longBreakInterval" label="Long Break Interval" />
+            </div>
             <DialogFooter className="flex-row justify-end flex-wrap">
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
