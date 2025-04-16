@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useSettings } from "@/hooks/settings-provider";
+import { useSettings } from "@/hooks/pomodoro/settings-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Settings as SettingsIcon } from "lucide-react";
 import type React from "react";

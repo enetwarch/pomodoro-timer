@@ -1,6 +1,6 @@
 import { Pomodoro } from "@/components/pomodoro";
-import { PomodoroProvider } from "@/hooks/pomodoro-provider";
-import { SettingsProvider } from "@/hooks/settings-provider";
+import { PomodoroProvider } from "@/hooks/pomodoro/pomodoro-provider";
+import { SettingsProvider } from "@/hooks/pomodoro/settings-provider";
 import { ThemeProvider } from "@/hooks/theme-provider";
 
 export default function App(): React.ReactNode {
