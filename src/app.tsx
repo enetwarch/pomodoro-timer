@@ -1,9 +1,9 @@
-import PomodoroReset from "@/components/PomodoroReset";
-import PomodoroSettings from "@/components/PomodoroSettings";
-import PomodoroToggle from "@/components/PomodoroToggle";
-import SupportButton from "@/components/SupportButton";
-import ThemeProvider from "@/components/ThemeProvider";
-import ThemeToggle from "@/components/ThemeToggle";
+import PomodoroReset from "@/components/pomodoro-reset";
+import PomodoroSettings from "@/components/pomodoro-settings";
+import PomodoroToggle from "@/components/pomodoro-toggle";
+import SupportButton from "@/components/support-button";
+import ThemeProvider from "@/components/theme-provider";
+import ThemeToggle from "@/components/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
