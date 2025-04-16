@@ -3,8 +3,8 @@ import { Toggle } from "@/components/ui/toggle";
 import { Pause, Play } from "lucide-react";
 import { useState } from "react";
 
-export default function PomodoroToggle() {
-  const [toggled, setToggled] = useState(false);
+function TimerButton(): React.ReactNode {
+  const [toggled, setToggled] = useState<boolean>(false);
 
   const handlePress = () => {
     setToggled(!toggled);
@@ -19,3 +19,5 @@ export default function PomodoroToggle() {
     </Button>
   );
 }
+
+export { TimerButton };

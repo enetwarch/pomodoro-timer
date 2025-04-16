@@ -1,12 +1,12 @@
-import PomodoroReset from "@/components/pomodoro-reset";
-import PomodoroSettings from "@/components/pomodoro-settings";
-import PomodoroToggle from "@/components/pomodoro-toggle";
-import SupportButton from "@/components/support-button";
-import ThemeToggle from "@/components/theme-toggle";
-import { SettingsProvider } from "@/hooks/settings-provider";
-import { ThemeProvider } from "@/hooks/theme-provider";
+import { ResetButton } from "@/components/reset-button";
+import { SettingsButton } from "@/components/settings-button";
+import { SupportButton } from "@/components/support-button";
+import { ThemeButton } from "@/components/theme-button";
+import { TimerButton } from "@/components/timer-button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { SettingsProvider } from "@/hooks/settings-provider";
+import { ThemeProvider } from "@/hooks/theme-provider";
 
 export default function App(): React.ReactNode {
   return (
@@ -23,10 +23,10 @@ export default function App(): React.ReactNode {
             </CardContent>
             <CardFooter className="justify-center border-t gap-2">
               <SupportButton />
-              <PomodoroReset />
-              <PomodoroToggle />
-              <PomodoroSettings />
-              <ThemeToggle />
+              <ResetButton />
+              <TimerButton />
+              <SettingsButton />
+              <ThemeButton />
             </CardFooter>
           </Card>
         </SettingsProvider>

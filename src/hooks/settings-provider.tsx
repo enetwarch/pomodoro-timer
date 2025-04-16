@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import type React from "react";
+import { createContext, useContext, useState } from "react";
 
 type Settings = {
   workMinutes: number;
@@ -32,7 +33,7 @@ type SettingsProviderProps = {
   storageKey?: string;
 };
 
-export function SettingsProvider({
+function SettingsProvider({
   children,
   defaultSettings = defaultSettingsProviderState.settings,
   storageKey = "settings",
@@ -63,7 +64,7 @@ export function SettingsProvider({
   );
 }
 
-export const useSettings = (): SettingsProviderState => {
+const useSettings = (): SettingsProviderState => {
   const context: SettingsProviderState = useContext(SettingsProviderContext);
   if (!context) {
     throw Error("useSettings must be used within a SettingsProvider");
@@ -71,3 +72,5 @@ export const useSettings = (): SettingsProviderState => {
 
   return context;
 };
+
+export { SettingsProvider, useSettings };

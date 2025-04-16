@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Heart } from "lucide-react";
 
-export default function SupportButton() {
+function SupportButton(): React.ReactNode {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -44,3 +44,5 @@ export default function SupportButton() {
     </Dialog>
   );
 }
+
+export { SupportButton };

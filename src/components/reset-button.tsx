@@ -1,10 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -18,14 +13,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { RotateCcw } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-const formSchema = z.object({
-  neverShowHardResetPromptAgain: z.boolean().default(false).optional(),
+type formSchemaObject = z.ZodObject<{
+  neverShowHardResetPromptAgain: z.ZodOptional<z.ZodBoolean>;
+}>;
+
+const formSchema: formSchemaObject = z.object({
+  neverShowHardResetPromptAgain: z.boolean().optional(),
 });
 
-function PomodoroReset() {
-  const [isHardResetConfirmationOpen, setIsHardResetConfirmationOpen] = useState(false);
+function ResetButton(): React.ReactNode {
+  const [isHardResetConfirmationOpen, setIsHardResetConfirmationOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,11 +38,11 @@ function PomodoroReset() {
     },
   });
 
-  const handleSoftReset = () => {
+  const handleSoftReset = (): void => {
     console.log("soft reset performed.");
   };
 
-  const handleHardReset = () => {
+  const handleHardReset = (): void => {
     const neverShowHardResetPromptAgain = localStorage.getItem("neverShowHardResetPromptAgain");
     const shouldSkipPrompt = neverShowHardResetPromptAgain ? JSON.parse(neverShowHardResetPromptAgain) : false;
 
@@ -49,7 +53,7 @@ function PomodoroReset() {
     }
   };
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>): void => {
     const checkboxValue = values.neverShowHardResetPromptAgain;
     localStorage.setItem("neverShowHardResetPromptAgain", JSON.stringify(checkboxValue));
 
@@ -134,4 +138,4 @@ function PomodoroReset() {
   );
 }
 
-export default PomodoroReset;
+export { ResetButton };

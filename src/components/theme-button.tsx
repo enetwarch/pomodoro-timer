@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/theme-provider";
 import { Moon, Sun } from "lucide-react";
 
-export default function ThemeToggle(): React.ReactNode {
+function ThemeButton(): React.ReactNode {
   const { theme, setTheme } = useTheme();
 
   const handleClick = (): void => {
@@ -24,3 +24,5 @@ export default function ThemeToggle(): React.ReactNode {
     </Button>
   );
 }
+
+export { ThemeButton };

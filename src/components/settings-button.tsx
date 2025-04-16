@@ -51,7 +51,7 @@ const formSchema: formSchemaObject = z.object({
   longBreakInterval: formSchemaIntegerLimits(1, 10),
 });
 
-export default function PomodoroSettings(): React.ReactNode {
+function SettingsButton(): React.ReactNode {
   const { settings, setSettings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -128,3 +128,5 @@ function SettingsFormField({ label, ...props }: SettingsFormFieldProps) {
     />
   );
 }
+
+export { SettingsButton };

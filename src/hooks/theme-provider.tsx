@@ -20,7 +20,7 @@ type ThemeProviderProps = {
   storageKey?: string;
 };
 
-export function ThemeProvider({
+function ThemeProvider({
   children,
   defaultTheme = defaultThemeProviderState.theme,
   storageKey = "theme",
@@ -57,7 +57,7 @@ export function ThemeProvider({
   );
 }
 
-export const useTheme = (): ThemeProviderState => {
+const useTheme = (): ThemeProviderState => {
   const context: ThemeProviderState = useContext(ThemeProviderContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
@@ -65,3 +65,5 @@ export const useTheme = (): ThemeProviderState => {
 
   return context;
 };
+
+export { ThemeProvider, useTheme };
