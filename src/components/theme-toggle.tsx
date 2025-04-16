@@ -1,17 +1,17 @@
-import { type Theme, useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/hooks/theme-provider";
 import { Moon, Sun } from "lucide-react";
 
-export default function ThemeToggle() {
+export default function ThemeToggle(): React.ReactNode {
   const { theme, setTheme } = useTheme();
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     if (theme === "system") {
       const newTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
 
       setTheme(newTheme);
     } else {
-      const newTheme: Theme = theme === "dark" ? "light" : "dark";
+      const newTheme = theme === "dark" ? "light" : "dark";
       setTheme(newTheme);
     }
   };

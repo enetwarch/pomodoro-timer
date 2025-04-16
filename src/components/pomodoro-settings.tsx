@@ -1,9 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { type Control, type FieldPath, type FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,9 +13,14 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Settings } from "lucide-react";
+import { useSettings } from "@/hooks/settings-provider";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Settings as SettingsIcon } from "lucide-react";
+import type React from "react";
+import { type Control, type FieldPath, useForm } from "react-hook-form";
+import { z } from "zod";
 
-const formSchemaIntegerLimits = (min: number, max: number) => {
+const formSchemaIntegerLimits = (min: number, max: number): z.ZodNumber => {
   return z.coerce
     .number({
       required_error: "required",
@@ -36,33 +37,42 @@ const formSchemaIntegerLimits = (min: number, max: number) => {
     });
 };
 
-const formSchema = z.object({
+type formSchemaObject = z.ZodObject<{
+  workMinutes: z.ZodNumber;
+  shortBreakMinutes: z.ZodNumber;
+  longBreakMinutes: z.ZodNumber;
+  longBreakInterval: z.ZodNumber;
+}>;
+
+const formSchema: formSchemaObject = z.object({
   workMinutes: formSchemaIntegerLimits(1, 60),
   shortBreakMinutes: formSchemaIntegerLimits(1, 60),
   longBreakMinutes: formSchemaIntegerLimits(1, 60),
   longBreakInterval: formSchemaIntegerLimits(1, 10),
 });
 
-export default function PomodoroSettings() {
+export default function PomodoroSettings(): React.ReactNode {
+  const { settings, setSettings } = useSettings();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      workMinutes: 25,
-      shortBreakMinutes: 5,
-      longBreakMinutes: 30,
-      longBreakInterval: 4,
+      workMinutes: settings.workMinutes,
+      shortBreakMinutes: settings.shortBreakMinutes,
+      longBreakMinutes: settings.longBreakMinutes,
+      longBreakInterval: settings.longBreakInterval,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = (values: z.infer<typeof formSchema>): void => {
+    setSettings(values);
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
-          <Settings />
+          <SettingsIcon />
           <span className="sr-only">Settings</span>
         </Button>
       </DialogTrigger>
@@ -83,7 +93,9 @@ export default function PomodoroSettings() {
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Save</Button>
+              <DialogClose asChild>
+                <Button type="submit">Save</Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
@@ -92,13 +104,13 @@ export default function PomodoroSettings() {
   );
 }
 
-type SettingsFormFieldProps<T extends FieldValues> = {
-  control: Control<T>;
-  name: FieldPath<T>;
+type SettingsFormFieldProps = {
+  control: Control<z.infer<typeof formSchema>>;
+  name: FieldPath<z.infer<typeof formSchema>>;
   label: string;
 };
 
-function SettingsFormField<T extends FieldValues>({ label, ...props }: SettingsFormFieldProps<T>) {
+function SettingsFormField({ label, ...props }: SettingsFormFieldProps) {
   return (
     <FormField
       {...props}
