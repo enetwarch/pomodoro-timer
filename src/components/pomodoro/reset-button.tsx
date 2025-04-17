@@ -13,6 +13,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
+import { type Settings, usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
+import { getSettingsKey } from "@/lib/pomodoro-utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotateCcw } from "lucide-react";
 import type React from "react";
@@ -30,6 +33,8 @@ const formSchema: formSchemaObject = z.object({
 
 function ResetButton(): React.ReactNode {
   const [isHardResetConfirmationOpen, setIsHardResetConfirmationOpen] = useState<boolean>(false);
+  const { pomodoroSettings } = usePomodoroSettings();
+  const { pomodoroState, setPomodoroState, setPomodoroSession, setPomodoroTimer } = usePomodoro();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,26 +43,44 @@ function ResetButton(): React.ReactNode {
     },
   });
 
-  const handleSoftReset = (): void => {
-    console.log("soft reset performed.");
+  const softReset = (): void => {
+    const state: keyof Settings = getSettingsKey(pomodoroState);
+
+    setPomodoroTimer({
+      minutes: pomodoroSettings[state],
+      seconds: 0,
+    });
   };
 
-  const handleHardReset = (): void => {
+  const hardReset = (): void => {
+    setPomodoroState("Work");
+    setPomodoroSession(1);
+    setPomodoroTimer({
+      minutes: pomodoroSettings.workMinutes,
+      seconds: 0,
+    });
+  };
+
+  const handleSoftResetButtonClick = (): void => {
+    softReset();
+  };
+
+  const handleHardResetButtonClick = (): void => {
     const neverShowHardResetPromptAgain = localStorage.getItem("neverShowHardResetPromptAgain");
     const shouldSkipPrompt = neverShowHardResetPromptAgain ? JSON.parse(neverShowHardResetPromptAgain) : false;
 
     if (shouldSkipPrompt) {
-      console.log("hard reset performed.");
+      hardReset();
     } else {
       setIsHardResetConfirmationOpen(true);
     }
   };
 
-  const onSubmit = (values: z.infer<typeof formSchema>): void => {
+  const onHardResetPromptSubmit = (values: z.infer<typeof formSchema>): void => {
     const checkboxValue = values.neverShowHardResetPromptAgain;
     localStorage.setItem("neverShowHardResetPromptAgain", JSON.stringify(checkboxValue));
 
-    console.log("hard reset performed.");
+    hardReset();
     setIsHardResetConfirmationOpen(false);
   };
 
@@ -84,10 +107,10 @@ function ResetButton(): React.ReactNode {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button onClick={handleSoftReset}>Soft</Button>
+              <Button onClick={handleSoftResetButtonClick}>Soft</Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button variant="destructive" onClick={handleHardReset}>
+              <Button variant="destructive" onClick={handleHardResetButtonClick}>
                 Hard
               </Button>
             </DialogClose>
@@ -98,7 +121,7 @@ function ResetButton(): React.ReactNode {
       <Dialog open={isHardResetConfirmationOpen} onOpenChange={setIsHardResetConfirmationOpen}>
         <DialogContent className="w-[300px]">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <form onSubmit={form.handleSubmit(onHardResetPromptSubmit)} className="flex flex-col gap-4">
               <DialogHeader className="text-left">
                 <DialogTitle>Confirmation</DialogTitle>
                 <DialogDescription>

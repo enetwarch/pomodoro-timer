@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useSettings } from "@/hooks/pomodoro/settings-provider";
+import { usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Settings as SettingsIcon } from "lucide-react";
 import type React from "react";
@@ -53,7 +53,7 @@ const formSchema: formSchemaObject = z.object({
 });
 
 function SettingsButton(): React.ReactNode {
-  const { pomodoroSettings, setPomodoroSettings } = useSettings();
+  const { pomodoroSettings, setPomodoroSettings } = usePomodoroSettings();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({

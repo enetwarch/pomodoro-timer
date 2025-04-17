@@ -53,7 +53,7 @@ function SettingsProvider({ children, storageKey = "settings", ...props }: Setti
   );
 }
 
-const useSettings = (): SettingsProviderState => {
+const usePomodoroSettings = (): SettingsProviderState => {
   const context: SettingsProviderState | undefined = useContext(SettingsProviderContext);
   if (!context) {
     throw Error("useSettings must be used within a SettingsProvider");
@@ -62,4 +62,4 @@ const useSettings = (): SettingsProviderState => {
   return context;
 };
 
-export { SettingsProvider, useSettings };
+export { type Settings, SettingsProvider, usePomodoroSettings };

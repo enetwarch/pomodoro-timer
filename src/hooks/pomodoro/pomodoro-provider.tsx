@@ -53,7 +53,7 @@ function PomodoroProvider({ children, storageKey = "pomodoro", ...props }: Setti
       localStorage.setItem(storageKey, JSON.stringify(pomodoro));
     };
 
-    const saveInterval = setInterval(savePomodoro, 1000 * 60);
+    const saveInterval: NodeJS.Timeout = setInterval(savePomodoro, 1000 * 60);
     window.addEventListener("beforeunload", savePomodoro);
 
     return () => {
@@ -87,4 +87,4 @@ const usePomodoro = (): PomodoroProviderState => {
   return context;
 };
 
-export { PomodoroProvider, usePomodoro };
+export { PomodoroProvider, usePomodoro, type Timer, type State, type Session };
