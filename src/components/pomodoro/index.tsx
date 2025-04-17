@@ -6,7 +6,7 @@ import { TimerButton } from "@/components/pomodoro/timer-button";
 import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
-import { formatTimeUnit } from "@/lib/pomodoro/utils";
+import { formatTimeUnit } from "@/lib/utils/pomodoro";
 import type { VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
 
