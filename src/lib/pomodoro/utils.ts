@@ -28,7 +28,7 @@ export function calculateNewTimer(startingDate: Date, startingTimer: Timer): Tim
 }
 
 export function isTimerFinished(timer: Timer): boolean {
-  return timer.minutes === 0 && timer.seconds === 0;
+  return timer.minutes < 0 || timer.seconds < 0;
 }
 
 export function getSettingsKey(pomodoroState: State): keyof Settings {

@@ -6,7 +6,7 @@ import { TimerButton } from "@/components/pomodoro/timer-button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
-import { formatTimeUnit } from "@/lib/pomodoro-utils";
+import { formatTimeUnit } from "@/lib/pomodoro/utils";
 import { useMemo } from "react";
 
 function Pomodoro(): React.ReactNode {

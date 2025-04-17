@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 import { type Timer, usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
 import { usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
-import { calculateNewTimer, getNextStateAndSession, getSettingsKey, isTimerFinished } from "@/lib/pomodoro-utils";
+import { calculateNewTimer, getNextStateAndSession, getSettingsKey, isTimerFinished } from "@/lib/pomodoro/utils";
 import { Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 

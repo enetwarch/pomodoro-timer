@@ -15,7 +15,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
 import { type Settings, usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
-import { getSettingsKey } from "@/lib/pomodoro-utils";
+import { getSettingsKey } from "@/lib/pomodoro/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotateCcw } from "lucide-react";
 import type React from "react";
