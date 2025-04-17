@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-work: var(--work);
+  --color-short-break: var(--short-break);
+  --color-long-break: var(--long-break);
+}
+
+:root {
+  --work: oklch(0.63 0.1157 20.83);
+  --short-break: oklch(0.62 0.0656 239.6);
+  --long-break: oklch(0.66 0.077 148.04);
+}
+
+@layer base {
+  * {
+    @apply transition-colors duration-75;
+  }
+}

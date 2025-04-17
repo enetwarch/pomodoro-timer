@@ -37,7 +37,7 @@ function TimerButton(): React.ReactNode {
       const startingTimer: Timer = structuredClone(pomodoroTimer);
 
       tickIntervalId.current = setInterval((): void => {
-        const newTimer = calculateNewTimer(startingDate, startingTimer);
+        const newTimer = calculateNewTimer(startingDate, startingTimer, Date.now());
         setPomodoroTimer(newTimer);
       }, 1000);
     } else {
