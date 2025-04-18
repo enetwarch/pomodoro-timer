@@ -90,7 +90,7 @@ function TimerButton(): React.ReactNode {
 
   return (
     <Button variant="outline" size="icon" asChild>
-      <Toggle ref={toggleRef} variant="outline" pressed={toggled} onPressedChange={setToggled}>
+      <Toggle ref={toggleRef} pressed={toggled} onPressedChange={setToggled}>
         {toggled ? <Pause /> : <Play />}
         <span className="sr-only">Toggle Timer</span>
       </Toggle>
