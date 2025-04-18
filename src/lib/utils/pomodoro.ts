@@ -1,11 +1,11 @@
 import type { Session, State, Timer } from "@/hooks/pomodoro/pomodoro-provider";
 import type { Settings } from "@/hooks/pomodoro/settings-provider";
 
-export function formatTimeUnit(time: number): string {
+function formatTimeUnit(time: number): string {
   return time.toString().padStart(2, "0");
 }
 
-export function calculateNewTimer(startingDate: Date, startingTimer: Timer, currentTime: number): Timer {
+function calculateNewTimer(startingDate: Date, startingTimer: Timer, currentTime: number): Timer {
   const startingTime: number = startingDate.getTime();
   const elapsedTime = currentTime - startingTime;
 
@@ -19,28 +19,22 @@ export function calculateNewTimer(startingDate: Date, startingTimer: Timer, curr
   };
 }
 
-export function isTimerFinished(timer: Timer): boolean {
+function isTimerFinished(timer: Timer): boolean {
   return timer.seconds < 0;
 }
 
-type StateAndSession = {
-  state: State;
-  session: Session;
-};
-
-// Both state and session have very similar parameters.
-// This is why they are condensed to a single function.
-export function getNextStateAndSession(state: State, session: Session, interval: number): StateAndSession {
-  const nextState: State = getNextState(state, session, interval);
-  const nextSession: Session = getNextSession(state, session);
-
-  return {
-    state: nextState,
-    session: nextSession,
-  };
+function getSettingsKey(pomodoroState: State): keyof Settings {
+  switch (pomodoroState) {
+    case "Work":
+      return "workMinutes";
+    case "Short Break":
+      return "shortBreakMinutes";
+    case "Long Break":
+      return "longBreakMinutes";
+  }
 }
 
-export function getNextState(state: State, session: Session, interval: number): State {
+function getNextState(state: State, session: Session, interval: number): State {
   switch (state) {
     case "Work":
       if (session !== interval) return "Short Break";
@@ -51,7 +45,7 @@ export function getNextState(state: State, session: Session, interval: number): 
   }
 }
 
-export function getNextSession(state: State, session: Session): Session {
+function getNextSession(state: State, session: Session): Session {
   switch (state) {
     case "Work":
       return session;
@@ -62,13 +56,4 @@ export function getNextSession(state: State, session: Session): Session {
   }
 }
 
-export function getSettingsKey(pomodoroState: State): keyof Settings {
-  switch (pomodoroState) {
-    case "Work":
-      return "workMinutes";
-    case "Short Break":
-      return "shortBreakMinutes";
-    case "Long Break":
-      return "longBreakMinutes";
-  }
-}
+export { formatTimeUnit, calculateNewTimer, isTimerFinished, getSettingsKey, getNextState, getNextSession };

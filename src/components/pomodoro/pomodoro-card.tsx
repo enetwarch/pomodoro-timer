@@ -11,7 +11,7 @@ import type { VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
 
 function PomodoroCard(): React.ReactNode {
-  const { pomodoroState, pomodoroSession, pomodoroTimer } = usePomodoro();
+  const { state, session, timer } = usePomodoro();
 
   const stateBadgeVariant: VariantProps<typeof badgeVariants>["variant"] = useMemo(() => {
     return "destructive";
@@ -22,18 +22,18 @@ function PomodoroCard(): React.ReactNode {
   }, []);
 
   const timerMinutes: string = useMemo((): string => {
-    return formatTimeUnit(pomodoroTimer.minutes);
-  }, [pomodoroTimer.minutes]);
+    return formatTimeUnit(timer.minutes);
+  }, [timer.minutes]);
 
   const timerSeconds: string = useMemo((): string => {
-    return formatTimeUnit(pomodoroTimer.seconds);
-  }, [pomodoroTimer.seconds]);
+    return formatTimeUnit(timer.seconds);
+  }, [timer.seconds]);
 
   return (
     <Card>
       <CardHeader className="flex flex-row gap-2">
-        <Badge variant={stateBadgeVariant}>{pomodoroState}</Badge>
-        <Badge variant={sessionBadgeVariant}>Session {pomodoroSession}</Badge>
+        <Badge variant={stateBadgeVariant}>{state}</Badge>
+        <Badge variant={sessionBadgeVariant}>Session {session}</Badge>
       </CardHeader>
       <CardContent className="justify-center items-center">
         <CardTitle className="font-extrabold text-7xl text-center mx-4">

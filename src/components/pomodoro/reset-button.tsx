@@ -13,9 +13,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
 import { type Settings, usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
+import { useToggled } from "@/hooks/pomodoro/toggled-provider";
+
 import { getSettingsKey } from "@/lib/utils/pomodoro";
+
+// External dependencies
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RotateCcw } from "lucide-react";
 import type React from "react";
@@ -23,46 +28,49 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-type formSchemaObject = z.ZodObject<{
+type hardResetFormSchemaObject = z.ZodObject<{
   neverShowHardResetPromptAgain: z.ZodOptional<z.ZodBoolean>;
 }>;
 
-const formSchema: formSchemaObject = z.object({
+const hardResetFormSchema: hardResetFormSchemaObject = z.object({
   neverShowHardResetPromptAgain: z.boolean().optional(),
 });
 
 function ResetButton(): React.ReactNode {
-  const [isHardResetConfirmationOpen, setIsHardResetConfirmationOpen] = useState<boolean>(false);
+  // Custom hooks
   const { pomodoroSettings } = usePomodoroSettings();
-  const { pomodoroState, setPomodoroState, setPomodoroSession, setPomodoroTimer } = usePomodoro();
+  const { state, setState, setSession, setTimer } = usePomodoro();
+  const { setToggled } = useToggled();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  // Used to solve double dialog nesting issue from shadcn.
+  const [isHardResetConfirmationOpen, setIsHardResetConfirmationOpen] = useState<boolean>(false);
+
+  const form = useForm<z.infer<typeof hardResetFormSchema>>({
+    resolver: zodResolver(hardResetFormSchema),
     defaultValues: {
       neverShowHardResetPromptAgain: false,
     },
   });
 
-  const softReset = (): void => {
-    const state: keyof Settings = getSettingsKey(pomodoroState);
+  const handleSoftResetButtonClick = (): void => {
+    setToggled(false);
+    const settingsKey: keyof Settings = getSettingsKey(state);
 
-    setPomodoroTimer({
-      minutes: pomodoroSettings[state],
+    setTimer({
+      minutes: pomodoroSettings[settingsKey],
       seconds: 0,
     });
   };
 
   const hardReset = (): void => {
-    setPomodoroState("Work");
-    setPomodoroSession(1);
-    setPomodoroTimer({
+    setToggled(false);
+
+    setState("Work");
+    setSession(1);
+    setTimer({
       minutes: pomodoroSettings.workMinutes,
       seconds: 0,
     });
-  };
-
-  const handleSoftResetButtonClick = (): void => {
-    softReset();
   };
 
   const handleHardResetButtonClick = (): void => {
@@ -76,7 +84,7 @@ function ResetButton(): React.ReactNode {
     }
   };
 
-  const onHardResetPromptSubmit = (values: z.infer<typeof formSchema>): void => {
+  const onHardResetFormSubmit = (values: z.infer<typeof hardResetFormSchema>): void => {
     const checkboxValue = values.neverShowHardResetPromptAgain;
     localStorage.setItem("neverShowHardResetPromptAgain", JSON.stringify(checkboxValue));
 
@@ -121,7 +129,7 @@ function ResetButton(): React.ReactNode {
       <Dialog open={isHardResetConfirmationOpen} onOpenChange={setIsHardResetConfirmationOpen}>
         <DialogContent className="w-[300px]">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onHardResetPromptSubmit)} className="flex flex-col gap-4">
+            <form onSubmit={form.handleSubmit(onHardResetFormSubmit)} className="flex flex-col gap-4">
               <DialogHeader className="text-left">
                 <DialogTitle>Confirmation</DialogTitle>
                 <DialogDescription>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState as useReactState } from "react";
 
 type State = "Work" | "Short Break" | "Long Break";
 type Timer = { minutes: number; seconds: number };
@@ -11,23 +11,27 @@ const defaultPomodoro: Pomodoro = {
   session: 1,
 };
 
-type PomodoroProviderState = {
-  pomodoroState: State;
-  setPomodoroState: React.Dispatch<React.SetStateAction<State>>;
-  pomodoroTimer: Timer;
-  setPomodoroTimer: React.Dispatch<React.SetStateAction<Timer>>;
-  pomodoroSession: Session;
-  setPomodoroSession: React.Dispatch<React.SetStateAction<Session>>;
+type PomodoroContextType = {
+  state: State;
+  setState: React.Dispatch<React.SetStateAction<State>>;
+  timer: Timer;
+  setTimer: React.Dispatch<React.SetStateAction<Timer>>;
+  session: Session;
+  setSession: React.Dispatch<React.SetStateAction<Session>>;
 };
 
-const PomodoroProviderContext = createContext<PomodoroProviderState | undefined>(undefined);
+const PomodoroContext = createContext<PomodoroContextType | undefined>(undefined);
 
-type SettingsProviderProps = {
+type PomodoroContextProviderProps = {
   children: React.ReactNode;
   storageKey?: string;
 };
 
-function PomodoroProvider({ children, storageKey = "pomodoro", ...props }: SettingsProviderProps): React.ReactNode {
+function PomodoroContextProvider({
+  children,
+  storageKey = "pomodoro",
+  ...props
+}: PomodoroContextProviderProps): React.ReactNode {
   const pomodoro: Pomodoro = ((): Pomodoro => {
     const storedPomodoro = localStorage.getItem(storageKey);
     if (!storedPomodoro) {
@@ -38,17 +42,13 @@ function PomodoroProvider({ children, storageKey = "pomodoro", ...props }: Setti
     return parsedPomodoro;
   })();
 
-  const [pomodoroState, setPomodoroState] = useState(pomodoro.state);
-  const [pomodoroTimer, setPomodoroTimer] = useState(pomodoro.timer);
-  const [pomodoroSession, setPomodoroSession] = useState(pomodoro.session);
+  const [state, setState] = useReactState(pomodoro.state);
+  const [timer, setTimer] = useReactState(pomodoro.timer);
+  const [session, setSession] = useReactState(pomodoro.session);
 
   useEffect(() => {
     const savePomodoro = (): void => {
-      const pomodoro: Pomodoro = {
-        state: pomodoroState,
-        timer: pomodoroTimer,
-        session: pomodoroSession,
-      };
+      const pomodoro: Pomodoro = { state, timer, session };
 
       localStorage.setItem(storageKey, JSON.stringify(pomodoro));
     };
@@ -62,29 +62,29 @@ function PomodoroProvider({ children, storageKey = "pomodoro", ...props }: Setti
     };
   });
 
-  const value: PomodoroProviderState = {
-    pomodoroState,
-    setPomodoroState,
-    pomodoroTimer,
-    setPomodoroTimer,
-    pomodoroSession,
-    setPomodoroSession,
+  const value: PomodoroContextType = {
+    state,
+    setState,
+    timer,
+    setTimer,
+    session,
+    setSession,
   };
 
   return (
-    <PomodoroProviderContext.Provider value={value} {...props}>
+    <PomodoroContext.Provider value={value} {...props}>
       {children}
-    </PomodoroProviderContext.Provider>
+    </PomodoroContext.Provider>
   );
 }
 
-const usePomodoro = (): PomodoroProviderState => {
-  const context: PomodoroProviderState | undefined = useContext(PomodoroProviderContext);
+const usePomodoro = (): PomodoroContextType => {
+  const context: PomodoroContextType | undefined = useContext(PomodoroContext);
   if (!context) {
-    throw Error("usePomodoro must be used within a PomodoroProvider.");
+    throw Error("usePomodoro must be used within a PomodoroContextProvider.");
   }
 
   return context;
 };
 
-export { PomodoroProvider, usePomodoro, type Timer, type State, type Session };
+export { PomodoroContextProvider, usePomodoro, type Timer, type State, type Session };
