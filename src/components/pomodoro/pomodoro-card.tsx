@@ -1,7 +1,7 @@
 import { ResetButton } from "@/components/pomodoro/reset-button";
 import { SettingsButton } from "@/components/pomodoro/settings-button";
 import { SupportButton } from "@/components/pomodoro/support-button";
-import { ThemeButton } from "@/components/pomodoro/theme-button";
+import { ThemeButton } from "@/components/theme-button";
 import { TimerButton } from "@/components/pomodoro/timer-button";
 import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
