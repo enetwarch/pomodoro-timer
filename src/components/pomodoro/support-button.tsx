@@ -11,8 +11,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
+// External dependencies
 import { Heart } from "lucide-react";
 
+// If you are reading this, please do give a star in the repository.
+// Repository: https://github.com/enetwarch/pomodoro-timer
 function SupportButton(): React.ReactNode {
   return (
     <Dialog>

@@ -55,7 +55,7 @@ function ThemeContextProvider({
 const useTheme = (): ThemeContextType => {
   const context: ThemeContextType | undefined = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error("useTheme must be used within a ThemeContextProvider");
   }
 
   return context;

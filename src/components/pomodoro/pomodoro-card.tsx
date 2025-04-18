@@ -1,12 +1,16 @@
 import { ResetButton } from "@/components/pomodoro/reset-button";
 import { SettingsButton } from "@/components/pomodoro/settings-button";
 import { SupportButton } from "@/components/pomodoro/support-button";
-import { ThemeButton } from "@/components/theme-button";
 import { TimerButton } from "@/components/pomodoro/timer-button";
+import { ThemeButton } from "@/components/theme-button";
 import { Badge, type badgeVariants } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
+
 import { formatTimeUnit } from "@/lib/utils/pomodoro";
+
+// External dependencies
 import type { VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
 
@@ -21,6 +25,8 @@ function PomodoroCard(): React.ReactNode {
     return "secondary";
   }, []);
 
+  // These timers should always have 2 string length.
+  // It should look like 00:00 when both are put together.
   const timerMinutes: string = useMemo((): string => {
     return formatTimeUnit(timer.minutes);
   }, [timer.minutes]);

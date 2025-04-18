@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
+
 import { useTheme } from "@/hooks/theme-provider";
+
+// External dependencies
 import { Moon, Sun } from "lucide-react";
 
 function ThemeButton(): React.ReactNode {

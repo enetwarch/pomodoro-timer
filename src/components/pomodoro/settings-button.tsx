@@ -54,6 +54,8 @@ const formSchema: formSchemaObject = z.object({
 
 function SettingsButton(): React.ReactNode {
   const { settings, setSettings } = useSettings();
+
+  // Used to allow onSubmit to close the dialog.
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({

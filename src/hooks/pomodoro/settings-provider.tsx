@@ -63,7 +63,7 @@ function SettingsContextProvider({
 const useSettings = (): SettingsContextType => {
   const context: SettingsContextType | undefined = useContext(SettingsContext);
   if (!context) {
-    throw Error("useSettings must be used within a SettingsProvider");
+    throw Error("useSettings must be used within a SettingsContextProvider");
   }
 
   return context;

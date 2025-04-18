@@ -19,6 +19,7 @@ function TimerButton(): React.ReactNode {
 
   // Used to toggle button clicks and focus when pressing spacebar.
   const toggleRef = useRef<HTMLButtonElement>(null);
+
   const tickIntervalId = useRef<NodeJS.Timeout>(undefined);
 
   useEffect((): (() => void) => {

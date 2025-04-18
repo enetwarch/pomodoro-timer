@@ -13,6 +13,7 @@ const defaultPomodoro: Pomodoro = {
   session: 1,
 };
 
+// A bunch of state hooks to modify pomodoro.
 type PomodoroContextType = {
   state: State;
   setState: React.Dispatch<React.SetStateAction<State>>;
@@ -51,16 +52,17 @@ function PomodoroContextProvider({
   useEffect(() => {
     const savePomodoro = (): void => {
       const pomodoro: Pomodoro = { state, timer, session };
-
       localStorage.setItem(storageKey, JSON.stringify(pomodoro));
     };
 
+    // Saves pomdooro every 1 minute.
     const saveInterval: NodeJS.Timeout = setInterval(savePomodoro, 1000 * 60);
     window.addEventListener("beforeunload", savePomodoro);
 
     return () => {
       clearInterval(saveInterval);
       window.removeEventListener("beforeunload", savePomodoro);
+      savePomodoro();
     };
   });
 
