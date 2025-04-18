@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Toggle } from "@/components/ui/toggle";
 
 import { type Timer, usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
-import { usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
+import { useSettings } from "@/hooks/pomodoro/settings-provider";
 import { useToggled } from "@/hooks/pomodoro/toggled-provider";
 
 import { calculateNewTimer, getNextSession, getNextState, getSettingsKey, isTimerFinished } from "@/lib/utils/pomodoro";
@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react";
 function TimerButton(): React.ReactNode {
   // Custom hooks
   const { timer, setTimer, state, setState, session, setSession } = usePomodoro();
-  const { pomodoroSettings } = usePomodoroSettings();
+  const { settings } = useSettings();
   const { toggled, setToggled } = useToggled();
 
   // Used to toggle button clicks and focus when pressing spacebar.
@@ -63,14 +63,14 @@ function TimerButton(): React.ReactNode {
   useEffect((): void => {
     if (!isTimerFinished(timer)) return;
 
-    const nextState = getNextState(state, session, pomodoroSettings.longBreakInterval);
+    const nextState = getNextState(state, session, settings.longBreakInterval);
     const nextSession = getNextSession(state, session);
 
     setState(nextState);
     setSession(nextSession);
 
     const settingsKey = getSettingsKey(nextState);
-    const stateMinutes = pomodoroSettings[settingsKey];
+    const stateMinutes = settings[settingsKey];
 
     setTimer({
       minutes: stateMinutes,

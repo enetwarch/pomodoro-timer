@@ -1,3 +1,4 @@
+// External dependencies
 import { createContext, useContext, useEffect, useState as useReactState } from "react";
 
 type State = "Work" | "Short Break" | "Long Break";
@@ -5,6 +6,7 @@ type Timer = { minutes: number; seconds: number };
 type Session = number;
 type Pomodoro = { state: State; timer: Timer; session: Session };
 
+// This is based on the default settings in settings-provider.
 const defaultPomodoro: Pomodoro = {
   state: "Work",
   timer: { minutes: 25, seconds: 0 },

@@ -15,7 +15,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
-import { type Settings, usePomodoroSettings } from "@/hooks/pomodoro/settings-provider";
+import { type Settings, useSettings } from "@/hooks/pomodoro/settings-provider";
 import { useToggled } from "@/hooks/pomodoro/toggled-provider";
 
 import { getSettingsKey } from "@/lib/utils/pomodoro";
@@ -38,7 +38,7 @@ const hardResetFormSchema: hardResetFormSchemaObject = z.object({
 
 function ResetButton(): React.ReactNode {
   // Custom hooks
-  const { pomodoroSettings } = usePomodoroSettings();
+  const { settings } = useSettings();
   const { state, setState, setSession, setTimer } = usePomodoro();
   const { setToggled } = useToggled();
 
@@ -54,10 +54,10 @@ function ResetButton(): React.ReactNode {
 
   const handleSoftResetButtonClick = (): void => {
     setToggled(false);
-    const settingsKey: keyof Settings = getSettingsKey(state);
+    const key: keyof Settings = getSettingsKey(state);
 
     setTimer({
-      minutes: pomodoroSettings[settingsKey],
+      minutes: settings[key],
       seconds: 0,
     });
   };
@@ -68,7 +68,7 @@ function ResetButton(): React.ReactNode {
     setState("Work");
     setSession(1);
     setTimer({
-      minutes: pomodoroSettings.workMinutes,
+      minutes: settings.workMinutes,
       seconds: 0,
     });
   };

@@ -1,21 +1,26 @@
+// External dependencies
 import { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "dark" | "light" | "system";
 const defaultTheme = "system";
 
-type ThemeProviderState = {
+type ThemeContextType = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeProviderContext = createContext<ThemeProviderState | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-type ThemeProviderProps = {
+type ThemeContextProviderProps = {
   children: React.ReactNode;
   storageKey?: string;
 };
 
-function ThemeProvider({ children, storageKey = "theme", ...props }: ThemeProviderProps): React.ReactNode {
+function ThemeContextProvider({
+  children,
+  storageKey = "theme",
+  ...props
+}: ThemeContextProviderProps): React.ReactNode {
   const [theme, setTheme] = useState<Theme>((): Theme => {
     return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
   });
@@ -32,7 +37,7 @@ function ThemeProvider({ children, storageKey = "theme", ...props }: ThemeProvid
     }
   }, [theme]);
 
-  const value: ThemeProviderState = {
+  const value: ThemeContextType = {
     theme,
     setTheme: (theme: Theme): void => {
       localStorage.setItem(storageKey, theme);
@@ -41,14 +46,14 @@ function ThemeProvider({ children, storageKey = "theme", ...props }: ThemeProvid
   };
 
   return (
-    <ThemeProviderContext.Provider value={value} {...props}>
+    <ThemeContext.Provider value={value} {...props}>
       {children}
-    </ThemeProviderContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
-const useTheme = (): ThemeProviderState => {
-  const context: ThemeProviderState | undefined = useContext(ThemeProviderContext);
+const useTheme = (): ThemeContextType => {
+  const context: ThemeContextType | undefined = useContext(ThemeContext);
   if (!context) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
@@ -56,4 +61,4 @@ const useTheme = (): ThemeProviderState => {
   return context;
 };
 
-export { ThemeProvider, useTheme };
+export { ThemeContextProvider, useTheme };

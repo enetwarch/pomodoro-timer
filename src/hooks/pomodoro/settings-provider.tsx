@@ -1,3 +1,4 @@
+// External dependencies
 import type React from "react";
 import { createContext, useContext, useState } from "react";
 
@@ -8,11 +9,8 @@ type Settings = {
   longBreakInterval: number;
 };
 
-type SettingsProviderState = {
-  pomodoroSettings: Settings;
-  setPomodoroSettings: (settings: Settings) => void;
-};
-
+// Standard pomodoro timer according to Todoist.
+// Source: https://www.todoist.com/productivity-methods/pomodoro-technique
 const defaultSettings: Settings = {
   workMinutes: 25,
   shortBreakMinutes: 5,
@@ -20,15 +18,24 @@ const defaultSettings: Settings = {
   longBreakInterval: 4,
 };
 
-const SettingsProviderContext = createContext<SettingsProviderState | undefined>(undefined);
+type SettingsContextType = {
+  settings: Settings;
+  setSettings: (settings: Settings) => void;
+};
 
-type SettingsProviderProps = {
+const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+
+type SettingsContextProviderProps = {
   children: React.ReactNode;
   storageKey?: string;
 };
 
-function SettingsProvider({ children, storageKey = "settings", ...props }: SettingsProviderProps): React.ReactNode {
-  const [pomodoroSettings, setPomodoroSettings] = useState<Settings>((): Settings => {
+function SettingsContextProvider({
+  children,
+  storageKey = "settings",
+  ...props
+}: SettingsContextProviderProps): React.ReactNode {
+  const [settings, setSettings] = useState<Settings>((): Settings => {
     const storedSettings: string | null = localStorage.getItem(storageKey);
     if (!storedSettings) {
       return defaultSettings;
@@ -38,23 +45,23 @@ function SettingsProvider({ children, storageKey = "settings", ...props }: Setti
     return parsedSettings;
   });
 
-  const value: SettingsProviderState = {
-    pomodoroSettings,
-    setPomodoroSettings: (settings: Settings): void => {
+  const value: SettingsContextType = {
+    settings,
+    setSettings: (settings: Settings): void => {
       localStorage.setItem(storageKey, JSON.stringify(settings));
-      setPomodoroSettings(settings);
+      setSettings(settings);
     },
   };
 
   return (
-    <SettingsProviderContext.Provider value={value} {...props}>
+    <SettingsContext.Provider value={value} {...props}>
       {children}
-    </SettingsProviderContext.Provider>
+    </SettingsContext.Provider>
   );
 }
 
-const usePomodoroSettings = (): SettingsProviderState => {
-  const context: SettingsProviderState | undefined = useContext(SettingsProviderContext);
+const useSettings = (): SettingsContextType => {
+  const context: SettingsContextType | undefined = useContext(SettingsContext);
   if (!context) {
     throw Error("useSettings must be used within a SettingsProvider");
   }
@@ -62,4 +69,4 @@ const usePomodoroSettings = (): SettingsProviderState => {
   return context;
 };
 
-export { type Settings, SettingsProvider, usePomodoroSettings };
+export { type Settings, SettingsContextProvider, useSettings };
