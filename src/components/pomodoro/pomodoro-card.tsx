@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 
 import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
 
-import { formatTimeUnit } from "@/lib/utils/pomodoro";
+import { formatTimeUnit } from "@/lib/pomodoro/util";
 
 // External dependencies
 import type { VariantProps } from "class-variance-authority";

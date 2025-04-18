@@ -18,7 +18,7 @@ import { usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
 import { type Settings, useSettings } from "@/hooks/pomodoro/settings-provider";
 import { useToggled } from "@/hooks/pomodoro/toggled-provider";
 
-import { getSettingsKey } from "@/lib/utils/pomodoro";
+import { getSettingsKey } from "@/lib/pomodoro/util";
 
 // External dependencies
 import { zodResolver } from "@hookform/resolvers/zod";

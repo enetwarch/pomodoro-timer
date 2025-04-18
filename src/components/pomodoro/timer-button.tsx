@@ -5,7 +5,7 @@ import { type Timer, usePomodoro } from "@/hooks/pomodoro/pomodoro-provider";
 import { useSettings } from "@/hooks/pomodoro/settings-provider";
 import { useToggled } from "@/hooks/pomodoro/toggled-provider";
 
-import { calculateNewTimer, getNextSession, getNextState, getSettingsKey, isTimerFinished } from "@/lib/utils/pomodoro";
+import { calculateNewTimer, getNextSession, getNextState, getSettingsKey, isTimerFinished } from "@/lib/pomodoro/util";
 
 // External dependencies
 import { Pause, Play } from "lucide-react";
